@@ -269,6 +269,43 @@
     border-radius: 20px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   }
+
+  .playlist-container-enhanced {
+  background: rgba(255, 240, 246, 0.95);
+  border: 3px dashed #ec407a;
+  border-radius: 25px;
+  padding: 30px 20px;
+  max-width: 700px;
+  margin: 30px auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  animation: fadeIn 1.5s ease-in-out;
+  text-align: center;
+}
+
+.playlist-container-enhanced h3 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 36px;
+  color: #c2185b;
+  margin-bottom: 10px;
+}
+
+.playlist-container-enhanced iframe {
+  width: 100%;
+  max-width: 500px;
+  height: 360px;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  margin-top: 15px;
+}
+
+.playlist-container-enhanced .frase-romantica {
+  font-size: 16px;
+  color: #d81b60;
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
   @media (max-width: 600px) {
     .notepad {
       width: 90%;
@@ -300,6 +337,92 @@
       height: 280px;
     }
   }
+
+  #mensajeMostrado {
+  animation: fadeInCarta 1s ease-in-out;
+}
+
+.secret-message {
+  filter: blur(6px);
+  transition: filter 0.5s ease, background 0.3s ease;
+  cursor: pointer;
+  background-color: #fce4ec;
+  padding: 10px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  position: relative;
+  font-size: 16px;
+  color: #880e4f;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.secret-message.revealed {
+  filter: blur(0);
+  background-color: #fff0f6;
+}
+
+.secret-message::after {
+  content: "👀 Haz clic para ver";
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+
+@keyframes fadeInCarta {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.tiempo-container {
+  background: rgba(255, 240, 246, 0.95);
+  border: 3px dashed #ec407a;
+  border-radius: 25px;
+  padding: 30px 20px;
+  max-width: 600px;
+  margin: auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  animation: fadeIn 1.5s ease-in-out;
+  text-align: center;
+}
+
+.tiempo-container h3 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 38px;
+  color: #c2185b;
+  margin-bottom: 20px;
+}
+
+.tiempo-box {
+  background: #fff0f6;
+  border: 2px solid #ec407a;
+  border-radius: 20px;
+  padding: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #880e4f;
+  font-family: 'Montserrat', sans-serif;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  animation: pulseTimer 3s infinite;
+}
+
+.frase-romantica {
+  font-style: italic;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #d81b60;
+  animation: fadeIn 2s ease-in;
+}
+
+@keyframes pulseTimer {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+
+
 
   </style>
 </head>
@@ -344,34 +467,67 @@
 </div>
 
 <div id="playlistScreen" class="screen">
-  <div id="relationshipTimer" style="
-    background: #fff0f6;
-    border: 2px dashed #ec407a;
-    border-radius: 20px;
-    padding: 16px 24px;
-    margin: 20px auto;
-    max-width: 500px;
-    font-size: 18px;
-    color: #880e4f;
-    font-weight: 600;
-    font-family: 'Montserrat', sans-serif;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    text-align: center;
-    animation: pulseTimer 3s ease-in-out infinite;
-  ">
-    ⏳ Calculando cuánto llevamos juntos ...
-  </div>
-  <div class="playlist-container">
+  <div class="playlist-container-enhanced">
+    <h3>Playlist</h3>
+    <p class="frase-romantica">Canciones que me recuerdan lo bonito que es estar juntos ♡</p>
+    
     <iframe
-    src="https://open.spotify.com/embed/playlist/1031FzY2heFzULY7yvwaEq?utm_source=generator"
-    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-    loading="lazy">
-  </iframe>
-  </div>
-  <div class="nav-buttons">
-    <button onclick="showScreen('notepadScreen')">❮ Carta</button>
+      src="https://open.spotify.com/embed/playlist/1031FzY2heFzULY7yvwaEq?utm_source=generator"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy">
+    </iframe>
+    
+    <div class="nav-buttons">
+      <button onclick="showScreen('notepadScreen')">❮ Atrás</button>
+      <button onclick="showScreen('buzonScreen')">Continuar ❯</button>
+    </div>
   </div>
 </div>
+
+
+<div id="buzonScreen" class="screen">
+  <div class="notepad" style="width: 95%; max-width: 640px; text-align: center;">
+    <h3 style="margin-bottom: 6px;">📮 Nuestro Buzón</h3>
+    <p style="margin-bottom: 20px; font-style: italic;">Deja un mensajito lindo o un recuerdo 💌</p>
+
+    <label for="autorMensaje" style="font-weight: bold;">¿Quién escribe?</label><br>
+    <select id="autorMensaje" style="margin: 10px auto 18px auto; padding: 8px 14px; border-radius: 10px; border: 2px solid #ec407a; background-color: #fff0f6; color: #880e4f;">
+      <option value="Amira">Amira 💖</option>
+      <option value="Thomas">Thomas 💙</option>
+    </select><br>
+
+    <textarea id="mensajeFuturo" rows="4" style="width: 100%; border-radius: 14px; padding: 12px; font-size: 16px; background: #ffffff; border: 2px dashed #ec407a;" placeholder="Ej: Hoy fuimos a pasear por el cerro..."></textarea>
+
+    <button onclick="guardarMensaje()" style="margin-top: 18px; background-color: #ec407a; color: white; padding: 10px 24px; border: none; border-radius: 14px; font-weight: bold;">💌 Guardar recuerdo</button>
+
+    <div id="mensajesGuardados" style="margin-top: 40px;">
+      <h4 style="text-align: center; margin-bottom: 18px;">📬 Mensajes guardados</h4>
+      <ul id="listaMensajes" style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px;"></ul>
+    </div>
+
+    <div class="nav-buttons" style="margin-top: 30px;">
+      <button onclick="showScreen('playlistScreen')">❮ Atrás</button>
+      <button onclick="showScreen('tiempoScreen')">❮ Continuar</button>
+
+    </div>
+  </div>
+</div>
+
+<div id="tiempoScreen" class="screen">
+  <div class="tiempo-container">
+    <h3> Nuestro tiempo juntos </h3>
+    <div id="relationshipTimer" class="tiempo-box">
+      ⏳ Calculando cuánto llevamos juntos ...
+    </div>
+    <p class="frase-romantica">y vamos por más!! (⸝⸝> ω <⸝⸝)</p>
+    <div class="nav-buttons">
+      <button onclick="showScreen('buzonScreen')">❮ Atrás</button>
+    </div>
+  </div>
+</div>
+
+
+
 
 <audio id="bgMusic" src="blue.mp3" loop preload="auto"></audio>
 <button id="musicPlayer">▶️ Música</button>
@@ -530,5 +686,45 @@ function irAPlaylist() {
 
   setInterval(actualizarTiempoJuntos, 1000);
 </script>
+
+<script>
+    function guardarMensaje() {
+  const mensaje = document.getElementById("mensajeFuturo").value.trim();
+  const autor = document.getElementById("autorMensaje").value;
+
+  if (!mensaje) return alert("Escribe un mensaje para guardar 💌");
+
+  let mensajes = JSON.parse(localStorage.getItem("buzonRecuerdos")) || [];
+
+  mensajes.push({ autor, mensaje });
+  localStorage.setItem("buzonRecuerdos", JSON.stringify(mensajes));
+
+  document.getElementById("mensajeFuturo").value = "";
+  mostrarMensajes();
+}
+
+
+  function mostrarMensajes() {
+  let mensajes = JSON.parse(localStorage.getItem("buzonRecuerdos")) || [];
+
+  const lista = document.getElementById("listaMensajes");
+  lista.innerHTML = "";
+
+  mensajes.forEach(({ autor, mensaje }) => {
+    const li = document.createElement("li");
+    const div = document.createElement("div");
+    div.className = "secret-message";
+    div.innerHTML = `<strong style="color:${autor === 'Amira' ? '#c2185b' : '#1976d2'}">💌 ${autor}:</strong><br>${mensaje}`;
+    div.onclick = () => div.classList.toggle("revealed");
+    li.appendChild(div);
+    lista.appendChild(li);
+  });
+}
+
+
+  document.addEventListener("DOMContentLoaded", mostrarMensajes);
+
+</script>
+
 </body>
 </html>
