@@ -344,6 +344,23 @@
 </div>
 
 <div id="playlistScreen" class="screen">
+  <div id="relationshipTimer" style="
+    background: #fff0f6;
+    border: 2px dashed #ec407a;
+    border-radius: 20px;
+    padding: 16px 24px;
+    margin: 20px auto;
+    max-width: 500px;
+    font-size: 18px;
+    color: #880e4f;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+    animation: pulseTimer 3s ease-in-out infinite;
+  ">
+    ⏳ Calculando cuánto llevamos juntos ...
+  </div>
   <div class="playlist-container">
     <iframe
     src="https://open.spotify.com/embed/playlist/1031FzY2heFzULY7yvwaEq?utm_source=generator"
@@ -457,6 +474,61 @@ function irAPlaylist() {
     heartContainer.appendChild(heart);
     }
 
+</script>
+  <script>
+  const sakuraContainer = document.createElement('div');
+  sakuraContainer.style.position = 'fixed';
+  sakuraContainer.style.top = '0';
+  sakuraContainer.style.left = '0';
+  sakuraContainer.style.width = '100%';
+  sakuraContainer.style.height = '100%';
+  sakuraContainer.style.pointerEvents = 'none';
+  sakuraContainer.style.zIndex = '0';
+  document.body.appendChild(sakuraContainer);
+
+  function crearPetalo() {
+    const petalo = document.createElement('div');
+    petalo.innerHTML = '🌸';
+    petalo.style.position = 'absolute';
+    petalo.style.top = '-30px';
+    petalo.style.left = `${Math.random() * 100}vw`;
+    petalo.style.fontSize = `${Math.random() * 16 + 20}px`;
+    petalo.style.opacity = Math.random();
+    petalo.style.animation = `caida ${Math.random() * 5 + 5}s linear forwards`;
+    sakuraContainer.appendChild(petalo);
+
+    setTimeout(() => {
+      sakuraContainer.removeChild(petalo);
+    }, 10000);
+  }
+
+  setInterval(crearPetalo, 500);
+
+  const style = document.createElement('style');
+  style.innerHTML = `
+    @keyframes caida {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(100vh) rotate(360deg); }
+    }
+  `;
+  document.head.appendChild(style);
+</script>
+<script>
+  function actualizarTiempoJuntos() {
+    const inicio = new Date("2025-06-14T00:00:00");
+    const ahora = new Date();
+    let diferencia = ahora - inicio;
+
+    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+    const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+    const segundos = Math.floor((diferencia / 1000) % 60);
+
+    const mensaje = `Llevamos juntos ${dias} días, ${horas} h, ${minutos} min y ${segundos} s desde el 14/06/2025 ( ｰ̀εｰ́ )`;
+    document.getElementById("relationshipTimer").innerText = mensaje;
+  }
+
+  setInterval(actualizarTiempoJuntos, 1000);
 </script>
 </body>
 </html>
