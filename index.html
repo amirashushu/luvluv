@@ -19,6 +19,10 @@
       height: 100vh;
       overflow: auto;
       position: relative;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      cursor: url('https://cur.cursors-4u.net/nature/nat-10/nat982.cur'), auto;
+
     }
 
     .screen {
@@ -104,7 +108,11 @@
     color: #880e4f;
     position: relative;
     z-index: 2;
-
+    animation: slideInNote 1s ease;
+    }
+    @keyframes slideInNote {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
     }
 
 
@@ -189,12 +197,18 @@
       align-items: center;
       gap: 12px;
       z-index: 10;
+      
     }
 
     .pet-container img {
       width: 60px;
       height: auto;
       cursor: pointer;
+      animation: bounce 3s ease-in-out infinite;
+    }
+    @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
     }
 
     .pet-message {
