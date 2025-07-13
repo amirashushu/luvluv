@@ -249,11 +249,43 @@
 
     .playlist-container iframe {
     width: 100%;
-    height: 240px;
+    max-width: 500px;
+    height: 360px;
     border: none;
     border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+  @media (max-width: 600px) {
+    .notepad {
+      width: 90%;
+      font-size: 16px;
+      padding: 16px;
     }
-
+  
+    .input-display {
+      font-size: 22px;
+      letter-spacing: 6px;
+    }
+  
+    .keypad {
+      grid-template-columns: repeat(3, 50px);
+      gap: 10px;
+    }
+  
+    .key {
+      font-size: 18px;
+      padding: 12px;
+    }
+  
+    #musicPlayer {
+      padding: 10px 14px;
+      font-size: 14px;
+    }
+  
+    .playlist-container iframe {
+      height: 280px;
+    }
+  }
 
   </style>
 </head>
