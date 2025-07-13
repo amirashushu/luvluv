@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Amira y Thomas</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(to bottom, #fce4ec, #f8bbd0);
+      height: 100vh;
+      overflow: auto;
+      position: relative;
+    }
+
+    .screen {
+    display: none;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;        
+    text-align: center;
+    animation: fadeIn 1s ease-in-out forwards;
+    background: linear-gradient(to bottom, #fce4ec, #f8bbd0);
+    opacity: 0;
+    padding: 40px 20px;
+    overflow-y: auto;         
+    }
+
+    .active {
+      display: flex;
+      opacity: 1;
+      transition: opacity 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .password-screen {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    h2 {
+      font-size: 26px;
+      font-weight: 600;
+      color: #d81b60;
+      margin-bottom: 10px;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 60px);
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    .key {
+      background-color: #f8bbd0;
+      border: none;
+      border-radius: 50%;
+      font-size: 20px;
+      padding: 15px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    .key:hover {
+      background-color: #f48fb1;
+      transform: scale(1.1);
+    }
+
+    .input-display {
+      font-size: 28px;
+      margin-top: 20px;
+      letter-spacing: 10px;
+      color: #880e4f;
+    }
+
+    .notepad {
+    background-color: #fff0f6;
+    border: 3px dashed #ec407a;
+    padding: 20px;
+    border-radius: 25px;
+    width: 70%;
+    max-width: 500px;
+    text-align: justify;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    line-height: 1.8;
+    color: #880e4f;
+    position: relative;
+    z-index: 2;
+
+    }
+
+
+    .notepad::before {
+      content: "💗";
+      font-size: 50px;
+      position: absolute;
+      top: -30px;
+      left: -30px;
+      animation: heartBeat 2s infinite;
+    }
+
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    .notepad h3, .notepad h4 {
+      text-align: center;
+      margin: 0;
+    }
+
+    .notepad h4 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 30px;
+      color: #c2185b;
+      margin: 10px 0;
+    }
+
+    .heart {
+    position: fixed;
+    color: #f06292;
+    font-size: 24px;
+    animation: float 8s linear infinite;
+    z-index: 1;
+    pointer-events: none;
+    }
+   
+
+
+
+    @keyframes float {
+    0% { transform: translateY(-10vh) scale(1); opacity: 0; }
+    100% { transform: translateY(110vh) scale(1.5); opacity: 1; }
+    }
+
+     #hearts-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    }
+
+    #musicPlayer {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10;
+      background-color: #ec407a;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: none;
+    }
+
+    #musicPlayer:hover {
+      background-color: #d81b60;
+    }
+
+    .pet-container {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 10;
+    }
+
+    .pet-container img {
+      width: 60px;
+      height: auto;
+      cursor: pointer;
+    }
+
+    .pet-message {
+      background: #f8bbd0;
+      color: #880e4f;
+      border: 2px solid #ec407a;
+      border-radius: 20px;
+      padding: 12px 18px;
+      font-size: 14px;
+      font-weight: bold;
+      max-width: 180px;
+      text-align: center;
+      animation: slideIn 0.6s ease, pulse 2.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .nav-buttons {
+      margin-top: 20px;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .nav-buttons button {
+      background-color: #ec407a;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #c2185b;
+    }
+
+    .playlist-container {
+    background: rgba(255, 240, 246, 0.9);
+    border: 2px dashed #ec407a;
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    width: 90%;
+    max-width: 700px;
+    margin: auto;
+    }
+
+    .playlist-container iframe {
+    width: 100%;
+    height: 240px;
+    border: none;
+    border-radius: 20px;
+    }
+
+
+  </style>
+</head>
+<body>
+    <div id="hearts-container"></div>
+<div id="passwordScreen" class="screen password-screen active">
+  <h2>🗝₊˚⊹♡ Ingresa la clave secreta</h2>
+  <div class="input-display" id="inputDisplay">••••</div>
+  <div class="keypad">
+    <button class="key" onclick="enterDigit('1')">1</button>
+    <button class="key" onclick="enterDigit('2')">2</button>
+    <button class="key" onclick="enterDigit('3')">3</button>
+    <button class="key" onclick="enterDigit('4')">4</button>
+    <button class="key" onclick="enterDigit('5')">5</button>
+    <button class="key" onclick="enterDigit('6')">6</button>
+    <button class="key" onclick="enterDigit('7')">7</button>
+    <button class="key" onclick="enterDigit('8')">8</button>
+    <button class="key" onclick="enterDigit('9')">9</button>
+    <div></div>
+    <button class="key" onclick="enterDigit('0')">0</button>
+    <div></div>
+  </div>
+</div>
+
+<div id="notepadScreen" class="screen">
+  <div class="notepad">
+    <h3>🗒 14 Julio 2025</h3>
+    <h4>Para mi querido Thomas ‹𝟹 :</h4>
+    <p>Hoy cumplimos un mes, el primero de bastantes que continúan por delante. Quiero que sepas lo feliz que soy por tenerte a mi lado. Desde que llegaste ese día tan random, todo cambió para mejor. Gracias por haber sido mi regalo de cumpleaños (づ˶•༝•˶)づ♡.</p>
+    <p>No sé cómo explicarlo, pero contigo siento que todo tiene más sentido. Me haces sentir amada, querida, acompañada… incluso cuando no estás cerca. Y eso no es algo que cualquiera logra. A tu lado estoy aprendiendo lo que es realmente el amor. Hemos pasado por tantas emociones en tan poco tiempo... es como una montaña rusa de emociones, pero una que repetiría mil veces contigo.</p>
+    <p>Estuviste a mi lado en mi peor momento, te quedaste cuando más lo necesitaba, me apoyaste a pesar de todo y me hiciste recordar por qué vale la pena vivir día a día. Eres un solcito, mi alegría constante, y solo espero seguir teniendo esa calidez que emites por mucho, mucho tiempo más. (ෆ˙ᵕ˙ෆ)♡</p>
+    <p>Me haces reír con tus chistes malos, que igual amo porque vienen de ti (yo soy la chistosa de la relación). Sé que no eres perfecto, y eso también me gusta, porque no busco perfección, sino algo real y contigo todo se siente así.</p>
+    <p>¿Quién lo diría? Ahora estás acá a mi lado, convirtiéndote poco a poco en parte de mi rutina, de mis días, de mis pensamientos. Ya me generaste una necesidad, y no me imagino la vida sin ti. Me ilusiona el hecho de seguir construyendo esto, paso a paso, con risas, mañoseos, aprendizajes y amor.</p>
+    <p>Me emociona pensar en todo lo que nos queda por vivir, en los lugares que podríamos conocer, en los abrazos que todavía no nos damos, en las cosas que nos quedan por hacer. Gracias por mirarme como si fuera lo más lindo que viste en el día, por elegirme a pesar de todo. Thomas, te elegiría una y mil veces más.</p>
+    <p>Te amo profundamente, ¡feliz primer mes! ♡</p>
+  </div>
+    <div class="nav-buttons">
+    <button onclick="volverAlBloqueo()">Volver</button>
+    <button onclick="irAPlaylist()">Continuar</button>
+    </div>
+
+</div>
+
+<div id="playlistScreen" class="screen">
+  <div class="playlist-container">
+    <iframe
+    src="https://open.spotify.com/embed/playlist/1031FzY2heFzULY7yvwaEq?utm_source=generator"
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+    loading="lazy">
+  </iframe>
+  </div>
+  <div class="nav-buttons">
+    <button onclick="showScreen('notepadScreen')">❮ Carta</button>
+  </div>
+</div>
+
+<audio id="bgMusic" src="blue.mp3" loop preload="auto"></audio>
+<button id="musicPlayer">▶️ Música</button>
+<div class="pet-container">
+  <img id="petImg" src="mascota1.png" alt="Mascota linda">
+  <div class="pet-message" id="petMessage">Hola 💕</div>
+</div>
+
+<script>
+  const correctPassword = '1406';
+  let input = '';
+  const display = document.getElementById('inputDisplay');
+  const audio = document.getElementById('bgMusic');
+  const musicBtn = document.getElementById('musicPlayer');
+
+  function enterDigit(digit) {
+    if (input.length < 4) {
+      input += digit;
+      display.textContent = input.padEnd(4, '•');
+    }
+    if (input.length === 4) {
+      setTimeout(() => {
+        if (input === correctPassword) {
+          showScreen('notepadScreen');
+          audio.play().catch(() => {});
+          musicBtn.style.display = 'block';
+        } else {
+          alert('Contraseña incorrecta ૮(˶╥︿╥)ა, Intenta de nuevo');
+          input = '';
+          display.textContent = '••••';
+        }
+      }, 300);
+    }
+  }
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  musicBtn.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play();
+      musicBtn.textContent = '⏸️ Pausar';
+    } else {
+      audio.pause();
+      musicBtn.textContent = '▶️ Música';
+    }
+  });
+
+  const frases = ["Te amo <3", "Báñate (≧ᵕ≦)♡", "Sonríe ૮ • ﻌ - ა!!", "Piensa en mí >ᴗ< !!", "Toma awita!!", "Te extraño (• ᴖ •｡)", "Fuiste al gym? ᕙ(  •̀ ᗜ •́  )ᕗ", 
+  "Si lees esto te gusta el pilin (੭˃ᴗ˂)੭", "Te amo más ദ്ദി ˉ͈̀꒳ˉ͈́ )✧","Abrígate porfis (｡•́︿•̀｡)", "Desayunaste ya? (｡•́︿•̀｡)","Hoy es un buen día para amarme (๑˃ᴗ˂)ﻭ","Te mereces una siesta ʕっ•ᴥ•ʔっ","Eres mi persona favorita ( ⁎ᵕᴗᵕ⁎ )❤︎",
+  "Cierra TikTok, amorcito (≖ᴗ≖ )","No procrastines... o sí, pero conmigo (｡•̀ᴗ-)✧", "Te comería a besitos (｡♥‿♥｡)", 
+  "Eres mi motivación pa todo ʚ♡⃛ɞ(•ᴗ•❁)","¿Ya sonreíste hoy? Hazlo por mí ( ´ ∀ )ノ～ ♡", "Solo quería recordarte que te amo (´･ᴗ･  )", "Eres mi lugar favorito (´｡• ᵕ •｡)","Contigo se me olvida el mundo (´｡• ᵕ •｡)", "Te amo aunque a veces me de la tontera (๑•﹏•)", "Eres lo mejor de mis días (ﾉ´ヮ`)ﾉ*: ･ﾟ",
+  "Oye... me gustas, mucho. (>///<)","No te estreses tanto, mi amorcito <3","Hiciste caca hoy? jeje, importante (｡•̀ᴗ-)✧","Hola mi arqui, hazme una casa, pero en tu corazón bb","¿Me das un abracito? (づ￣ ³￣)づ", "Si lees esto, debes darme 3 besitos"];
+  const mensajeMascota = document.getElementById('mensajeMascota');
+  const petMessage = document.getElementById('petMessage');
+
+  function changeMessage() {
+    const msg = frases[Math.floor(Math.random() * frases.length)];
+    petMessage.textContent = msg;
+  }
+
+  changeMessage();
+  setInterval(changeMessage, 60000);
+
+  const petImg = document.getElementById('petImg');
+  const petOptions = ['mascota1.png', 'mascota2.png'];
+  let petIndex = 0;
+
+  petImg.addEventListener('click', () => {
+    petIndex = (petIndex + 1) % petOptions.length;
+    petImg.src = petOptions[petIndex];
+    const originalText = petMessage.textContent;
+    petMessage.textContent = "¡ouch!";
+    setTimeout(() => {
+    changeMessage();
+    }, 2000);
+
+  });
+  function volverAlBloqueo() {
+  document.getElementById('notepadScreen').classList.remove('active');
+  document.getElementById('passwordScreen').classList.add('active');
+}
+
+function irAPlaylist() {
+  showScreen('playlistScreen');
+}
+
+</script>
+
+<script>
+  const heartContainer = document.getElementById("hearts-container");
+    for (let i = 0; i < 25; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDelay = Math.random() * 8 + "s";
+    heart.innerHTML = "♡";
+    heartContainer.appendChild(heart);
+    }
+
+</script>
+</body>
+</html>
