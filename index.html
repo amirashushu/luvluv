@@ -2,8 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Amira y Thomas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Amira & Thomas</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Cookie&display=swap');
@@ -378,61 +380,73 @@
     font-size: 14px;
   }
 }
-@media only screen and (max-width: 600px) {
-  body {
+@media only screen and (max-width: 430px) {
+  html, body {
     font-size: 16px;
-    padding: 0 12px;
+    line-height: 1.4;
+    margin: 0;
+    padding: 0;
     overflow-x: hidden;
+    background-color: #fffafc;
   }
 
   .screen {
-    padding: 10px 0;
+    padding: 12px 10px;
   }
 
   .notepad {
-    padding: 12px !important;
     width: 100% !important;
-    max-width: 100% !important;
-    border-radius: 18px !important;
+    padding: 16px 14px;
+    border-radius: 18px;
+    box-shadow: none;
   }
 
-  h3.fancyFont {
-    font-size: 22px !important;
+  .fancyFont {
+    font-size: 20px !important;
   }
 
-  .upload-label,
+  button,
   .boton-romantico,
   .nav-buttons button {
     width: 100%;
     font-size: 16px;
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 12px;
     border-radius: 12px;
   }
 
-  textarea, select, input[type="file"], input[type="text"] {
-    font-size: 16px;
+  input[type="file"],
+  select,
+  textarea {
     width: 100%;
+    font-size: 16px;
     padding: 10px;
-    margin-bottom: 14px;
+    margin-top: 8px;
+    border-radius: 10px;
   }
 
   .galeria-kawaii {
-    gap: 8px;
-    padding: 8px 4px;
-    max-height: 360px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    max-height: 320px;
     overflow-y: auto;
   }
 
   .galeria-kawaii img,
-  .galeria-kawaii video,
-  .galeria-item {
-    width: 46vw;
-    height: 46vw;
-    max-width: unset;
-    max-height: unset;
+  .galeria-kawaii video {
+    width: 45vw;
+    height: 45vw;
     border-radius: 14px;
+    object-fit: cover;
   }
+
+  * {
+    box-sizing: border-box;
+  }
+}
 
   .notepad p,
   .notepad label {
@@ -443,7 +457,6 @@
     flex-direction: column;
     gap: 10px;
   }
-}
 
 
   #mensajeMostrado {
