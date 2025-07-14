@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  
   <title>Amira y Thomas</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600&display=swap');
@@ -864,6 +863,18 @@
 
 
   </style>
+
+
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
+
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
+
 </head>
 <body>
   
@@ -1725,6 +1736,115 @@ document.addEventListener("DOMContentLoaded", mostrarGaleria);
 
 
 
+
+</script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCBTK4lvPlv9CzjwIBsmonAYNyKOX8jMYc",
+    authDomain: "amiraythomas.firebaseapp.com",
+    projectId: "amiraythomas",
+    storageBucket: "amiraythomas.appspot.com",
+    messagingSenderId: "1091768566011",
+    appId: "1:1091768566011:web:a18fb7e0df4852591ff05e",
+    measurementId: "G-C5MDLWG0MB"
+  };
+
+  // Inicializar Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const storage = firebase.storage();
+  const db = firebase.firestore();
+
+  const galeriaDiv = document.getElementById('galeria');
+  const fileInput = document.getElementById('fileInput');
+
+  fileInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    const storageRef = storage.ref(`galeria/${Date.now()}_${file.name}`);
+    await storageRef.put(file);
+    const url = await storageRef.getDownloadURL();
+
+    // Guardar URL en Firestore
+    await db.collection('galeria').add({ url });
+
+    mostrarGaleria();
+  });
+
+  async function mostrarGaleria() {
+    galeriaDiv.innerHTML = '';
+    const snapshot = await db.collection('galeria').get();
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      const ext = data.url.split('.').pop();
+      if (['mp4', 'webm'].includes(ext)) {
+        galeriaDiv.innerHTML += `<video src="${data.url}" controls class="item"></video>`;
+      } else {
+        galeriaDiv.innerHTML += `<img src="${data.url}" class="item" />`;
+      }
+    });
+  }
+
+  mostrarGaleria();
+</script>
+
+
+<!-- 🌸 Galería compartida Firebase -->
+<section class="pantalla pantalla-galeria" id="pantallaGaleria" style="display: none;">
+  <div class="notepad" style="width: 95%; max-width: 720px; text-align: center;">
+    <h3 style="text-align: center;">📸 Nuestra Galería</h3>
+    <p style="margin-bottom: 20px; font-style: italic;">Subamos recuerdos juntos 💖</p>
+    <input type="file" id="fileInput" accept="image/*,video/*" style="margin-bottom: 16px;"/><br>
+    <div id="galeria" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;"></div>
+  </div>
+</section>
+
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCBTK4lvPlv9CzjwIBsmonAYNyKOX8jMYc",
+    authDomain: "amiraythomas.firebaseapp.com",
+    projectId: "amiraythomas",
+    storageBucket: "amiraythomas.appspot.com",
+    messagingSenderId: "1091768566011",
+    appId: "1:1091768566011:web:a18fb7e0df4852591ff05e",
+    measurementId: "G-C5MDLWG0MB"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const storage = getStorage(app);
+  const db = getFirestore(app);
+
+  const fileInput = document.getElementById("fileInput");
+  const galeria = document.getElementById("galeria");
+
+  fileInput?.addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    const storageRef = ref(storage, `galeria/${Date.now()}_${file.name}`);
+    await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(storageRef);
+    await addDoc(collection(db, "galeria"), { url });
+    mostrarGaleria();
+  });
+
+  async function mostrarGaleria() {
+    galeria.innerHTML = "";
+    const snapshot = await getDocs(collection(db, "galeria"));
+    snapshot.forEach(doc => {
+      const { url } = doc.data();
+      const ext = url.split('.').pop().toLowerCase();
+      if (["mp4", "webm"].includes(ext)) {
+        galeria.innerHTML += `<video src="${url}" controls style="max-width: 150px; border-radius: 10px;"></video>`;
+      } else {
+        galeria.innerHTML += `<img src="${url}" style="max-width: 150px; border-radius: 10px;" />`;
+      }
+    });
+  }
+
+  mostrarGaleria();
 </script>
 
 </body>
