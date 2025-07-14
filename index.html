@@ -6,6 +6,7 @@
   <title>Amira y Thomas</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cookie&display=swap');
 
     * {
       box-sizing: border-box;
@@ -33,16 +34,20 @@
     min-height: 100vh;        
     text-align: center;
     animation: fadeIn 1s ease-in-out forwards;
-    background: linear-gradient(to bottom, #fce4ec, #f8bbd0);
+    background: linear-gradient(to bottom, #fff0f6 10%, #f8bbd0 100%);
     opacity: 0;
     padding: 40px 20px;
-    overflow-y: auto;         
+    overflow-y: auto;       
+    transition: opacity 0.5s ease-in-out;
+    pointer-events: none;  
     }
 
     .active {
       display: flex;
       opacity: 1;
       transition: opacity 1s ease-in-out;
+      opacity: 1;
+     pointer-events: auto;
     }
 
     @keyframes fadeIn {
@@ -170,24 +175,29 @@
     }
 
     #musicPlayer {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 10;
-      background-color: #ec407a;
-      color: white;
-      border: none;
-      padding: 12px 18px;
-      border-radius: 30px;
-      font-size: 16px;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      display: none;
-    }
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+  background: linear-gradient(145deg, #f48fb1, #ec407a);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 40px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease, transform 0.2s ease;
+  display: none; /* se muestra solo tras ingresar clave */
+}
 
-    #musicPlayer:hover {
-      background-color: #d81b60;
-    }
+#musicPlayer:hover {
+  background: linear-gradient(145deg, #e91e63, #ad1457);
+  transform: scale(1.05);
+}
+
+
 
     .pet-container {
       position: fixed;
@@ -205,6 +215,7 @@
       height: auto;
       cursor: pointer;
       animation: bounce 3s ease-in-out infinite;
+      filter: brightness(1.1) drop-shadow(0 0 4px #f8bbd0);
     }
     @keyframes bounce {
     0%, 100% { transform: translateY(0); }
@@ -338,6 +349,37 @@
     }
   }
 
+  @media (max-width: 600px) {
+  h2, h3, h4 {
+    font-size: 20px !important;
+  }
+
+  .notepad {
+    padding: 14px;
+    border-radius: 18px;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .playlist-container-enhanced h3 {
+    font-size: 26px;
+  }
+
+  .tiempo-box {
+    font-size: 18px;
+    padding: 16px;
+  }
+
+  .fancyFont {
+    font-size: 1.6em;
+  }
+
+  .secret-message {
+    font-size: 14px;
+  }
+}
+
+
   #mensajeMostrado {
   animation: fadeInCarta 1s ease-in-out;
 }
@@ -421,12 +463,255 @@
   50% { transform: scale(1.05); }
 }
 
+#answersArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.answerBubble {
+  max-width: 80%;
+  background: #fce4ec;
+  padding: 12px 16px;
+  border-radius: 20px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  color: #880e4f;
+  font-size: 15px;
+  position: relative;
+  text-align: left;
+  word-wrap: break-word;
+}
+
+.answerBubble::before {
+  content: attr(data-name);
+  position: absolute;
+  top: -16px;
+  left: 14px;
+  font-size: 12px;
+  color: #c2185b;
+  font-weight: bold;
+}
+#answersArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.questionTitle {
+  background: #fff0f6;
+  color: #ad1457;
+  font-weight: bold;
+  padding: 12px 20px;
+  border-radius: 18px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  max-width: 90%;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.answerBubble {
+  background: #fce4ec;
+  padding: 14px 18px;
+  border-radius: 20px;
+  max-width: 85%;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  font-size: 14px;
+  color: #880e4f;
+  text-align: left;
+}
+
+.answerBubble.amira {
+  background: #f8bbd0;
+  border-left: 6px solid #d81b60;
+}
+
+.answerBubble.thomas {
+  background: #b2ebf2;
+  border-left: 6px solid #0097a7;
+}
+
+
+.fancyFont {
+  font-family: 'Cookie', cursive;
+  font-size: 2em;
+  color: #d81b60;
+  text-shadow: 1px 1px 2px #ffc1e3;
+}
+
+@keyframes zoomFade {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.password-screen {
+  animation: zoomFade 0.8s ease-in-out;
+}
+
+#preguntaDiariaScreen h2 {
+  font-family: 'Comic Neue', cursive;
+  font-size: 26px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  color: #d81b60;
+  text-shadow: 1px 1px #fff;
+  text-align: center;
+}
+
+#preguntaDiariaScreen .notepad {
+  background: #fff0f6;
+  padding: 24px;
+  border-radius: 20px;
+  box-shadow: 0 6px 16px rgba(216, 27, 96, 0.2);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+#preguntaDiariaScreen input,
+#preguntaDiariaScreen textarea {
+  border: 2px solid #f8bbd0;
+  background: #ffffff;
+  color: #333;
+  font-family: inherit;
+  margin: 8px 0;
+  width: 90%;
+  max-width: 400px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  transition: all 0.2s ease;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#preguntaDiariaScreen input:focus,
+#preguntaDiariaScreen textarea:focus {
+  outline: none;
+  border-color: #ec407a;
+  box-shadow: 0 0 6px rgba(236, 64, 122, 0.4);
+}
+
+#preguntaDiariaScreen button {
+  background: linear-gradient(to right, #ec407a, #d81b60);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: transform 0.2s ease, background 0.3s ease;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#preguntaDiariaScreen button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(to right, #d81b60, #ad1457);
+}
+
+#preguntaDiariaScreen #answersArea {
+  background: #ffe3ec;
+  padding: 14px;
+  border-radius: 14px;
+  margin-top: 16px;
+  font-size: 15px;
+  color: #6a1b9a;
+  font-style: italic;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#preguntaDiariaScreen .nav-buttons {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#preguntaDiariaScreen .nav-buttons button {
+  background: transparent;
+  border: 2px solid #ec407a;
+  color: #ec407a;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#preguntaDiariaScreen .nav-buttons button:hover {
+  background: #ec407a;
+  color: white;
+}
+
+.nota-sorpresa {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  background: #ffe3ec;
+  border-radius: 18px;
+  padding: 12px 18px;
+  font-size: 14px;
+  font-style: italic;
+  color: #880e4f;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: none;
+  z-index: 5;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.cambio-pregunta-btn {
+  background: linear-gradient(to right, #f8bbd0, #ec407a);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  margin: 10px auto;
+  cursor: pointer;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.cambio-pregunta-btn:hover {
+  transform: scale(1.05);
+}
+
+.cuponAnimado {
+  animation: aparecer 0.6s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes aparecer {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#cuponesScreen {
+  background: linear-gradient(145deg, #ffeef7, #fff0f6);
+  padding: 20px;
+  min-height: 100vh;
+  overflow-y: auto;
+}
 
 
 
   </style>
 </head>
 <body>
+  
     <div id="hearts-container"></div>
 <div id="passwordScreen" class="screen password-screen active">
   <h2>🗝₊˚⊹♡ Ingresa la clave secreta</h2>
@@ -463,6 +748,8 @@
     <button onclick="volverAlBloqueo()">Volver</button>
     <button onclick="irAPlaylist()">Continuar</button>
     </div>
+  <div id="sorpresa" class="nota-sorpresa">P.D: Te amo más cada día (づ￣ ³￣)づ</div>
+
 
 </div>
 
@@ -479,7 +766,7 @@
     
     <div class="nav-buttons">
       <button onclick="showScreen('notepadScreen')">❮ Atrás</button>
-      <button onclick="showScreen('buzonScreen')">Continuar ❯</button>
+      <button onclick="showScreen('buzonScreen')">Continuar</button>
     </div>
   </div>
 </div>
@@ -487,7 +774,7 @@
 
 <div id="buzonScreen" class="screen">
   <div class="notepad" style="width: 95%; max-width: 640px; text-align: center;">
-    <h3 style="margin-bottom: 6px;">📮 Nuestro Buzón</h3>
+    <h3 class="fancyFont" style="text-align: center;">📮 Nuestro Buzón</h3>
     <p style="margin-bottom: 20px; font-style: italic;">Deja un mensajito lindo o un recuerdo 💌</p>
 
     <label for="autorMensaje" style="font-weight: bold;">¿Quién escribe?</label><br>
@@ -501,13 +788,13 @@
     <button onclick="guardarMensaje()" style="margin-top: 18px; background-color: #ec407a; color: white; padding: 10px 24px; border: none; border-radius: 14px; font-weight: bold;">💌 Guardar recuerdo</button>
 
     <div id="mensajesGuardados" style="margin-top: 40px;">
-      <h4 style="text-align: center; margin-bottom: 18px;">📬 Mensajes guardados</h4>
+      <h4 class="fancyFont" style="text-align: center; margin-bottom: 18px;">📬 Mensajes guardados</h4>
       <ul id="listaMensajes" style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px;"></ul>
     </div>
 
     <div class="nav-buttons" style="margin-top: 30px;">
       <button onclick="showScreen('playlistScreen')">❮ Atrás</button>
-      <button onclick="showScreen('tiempoScreen')">❮ Continuar</button>
+      <button onclick="showScreen('tiempoScreen')">Continuar</button>
 
     </div>
   </div>
@@ -522,9 +809,52 @@
     <p class="frase-romantica">y vamos por más!! (⸝⸝> ω <⸝⸝)</p>
     <div class="nav-buttons">
       <button onclick="showScreen('buzonScreen')">❮ Atrás</button>
+      <button onclick="showScreen('preguntaDiariaScreen')"> Continuar</button>
+
     </div>
   </div>
 </div>
+
+<div id="preguntaDiariaScreen" class="screen">
+  <h2 style="color:#d81b60; margin-bottom: 10px;">📝 Pregunta del día</h2>
+
+  <div class="notepad" style="text-align: center;">
+    <p id="dailyQuestion"></p>
+
+    <button onclick="showRandomQuestion()" class="cambio-pregunta-btn">🔄 Otra pregunta</button>
+
+  <input id="userNameInput" placeholder="Tu nombre" />
+  <textarea id="userAnswerInput" placeholder="Tu respuesta..." rows="3"></textarea>
+
+  <button onclick="saveDailyAnswer()" style="margin-top:10px;">Enviar</button>
+  <div id="answersArea" style="margin-top:20px;"></div>
+  </div>
+
+  <div class="nav-buttons">
+    <button onclick="showScreen('buzonScreen')">❮ Atrás</button>
+    <button onclick="showScreen('cuponesScreen'); inicializarCupones()">Continuar</button>
+  </div>
+</div>
+
+<div id="cuponesScreen" class="screen">
+  <h2 style="color: #ec407a;">Cupones</h2>
+
+  <div id="listaCupones" style="margin-top: 20px;"></div>
+
+  <button onclick="mostrarFormularioCupon()" class="temaBtn">➕ Crear cupón</button>
+
+  <div id="formularioCupon" style="display: none; margin-top: 15px;">
+    <input id="tituloCupon" placeholder="¿Qué vale?" style="padding: 8px; border-radius: 10px; width: 80%;"><br>
+    <textarea id="detalleCupon" rows="2" placeholder="Detalles del cupón..." style="width: 80%; border-radius: 10px; padding: 8px; margin-top: 5px;"></textarea><br>
+    <button onclick="guardarCupon()" style="margin-top: 5px;">💌 Guardar</button>
+  </div>
+
+  <div class="nav-buttons">
+    <button onclick="showScreen('preguntaDiariaScreen')">❮ Volver</button>
+  </div>
+  <canvas id="confettiCanvas" style="position: fixed; top: 0; left: 0; pointer-events: none; width: 100%; height: 100%; z-index: 999;"></canvas>
+</div>
+
 
 
 
@@ -544,45 +874,121 @@
   const musicBtn = document.getElementById('musicPlayer');
 
   function enterDigit(digit) {
-    if (input.length < 4) {
-      input += digit;
-      display.textContent = input.padEnd(4, '•');
-    }
-    if (input.length === 4) {
-      setTimeout(() => {
-        if (input === correctPassword) {
-          showScreen('notepadScreen');
-          audio.play().catch(() => {});
-          musicBtn.style.display = 'block';
-        } else {
-          alert('Contraseña incorrecta ૮(˶╥︿╥)ა, Intenta de nuevo');
-          input = '';
-          display.textContent = '••••';
-        }
-      }, 300);
-    }
+  if (input.length < 4) {
+    input += digit;
+    display.textContent = input.padEnd(4, '•');
   }
+
+  if (input.length === 4) {
+    setTimeout(() => {
+      if (input === correctPassword) {
+        showScreen('notepadScreen');
+        audio.play().catch(() => {});
+        musicBtn.style.display = 'block';
+
+        setTimeout(() => {
+          const sorpresa = document.getElementById('sorpresa');
+          if (sorpresa) {
+            sorpresa.style.display = 'block';
+          }
+        }, 10000); 
+
+      } else {
+        alert('Contraseña incorrecta ૮(˶╥︿╥)ა, Intenta de nuevo');
+        input = '';
+        display.textContent = '••••';
+      }
+    }, 300);
+  }
+}
 
   function showScreen(id) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.screen').forEach(s => {
+      s.classList.remove('active');
+    });
+    const next = document.getElementById(id);
+    next.classList.add('active');
   }
 
-  musicBtn.addEventListener('click', () => {
-    if (audio.paused) {
-      audio.play();
-      musicBtn.textContent = '⏸️ Pausar';
-    } else {
-      audio.pause();
-      musicBtn.textContent = '▶️ Música';
-    }
-  });
+ musicBtn.addEventListener('click', () => {
+  if (audio.paused) {
+    audio.play();
+    musicBtn.textContent = '⏸️ Pausar';
+  } else {
+    audio.pause();
+    musicBtn.textContent = '▶️ Música';
+  }
+});
 
-  const frases = ["Te amo <3", "Báñate (≧ᵕ≦)♡", "Sonríe ૮ • ﻌ - ა!!", "Piensa en mí >ᴗ< !!", "Toma awita!!", "Te extraño (• ᴖ •｡)", "Fuiste al gym? ᕙ(  •̀ ᗜ •́  )ᕗ", 
-  "Si lees esto te gusta el pilin (੭˃ᴗ˂)੭", "Te amo más ദ്ദി ˉ͈̀꒳ˉ͈́ )✧","Abrígate porfis (｡•́︿•̀｡)", "Desayunaste ya? (｡•́︿•̀｡)","Hoy es un buen día para amarme (๑˃ᴗ˂)ﻭ","Te mereces una siesta ʕっ•ᴥ•ʔっ","Eres mi persona favorita ( ⁎ᵕᴗᵕ⁎ )❤︎",
-  "Cierra TikTok, amorcito (≖ᴗ≖ )","No procrastines... o sí, pero conmigo (｡•̀ᴗ-)✧", "Te comería a besitos (｡♥‿♥｡)", 
-  "Eres mi motivación pa todo ʚ♡⃛ɞ(•ᴗ•❁)","¿Ya sonreíste hoy? Hazlo por mí ( ´ ∀ )ノ～ ♡", "Solo quería recordarte que te amo (´･ᴗ･  )", "Eres mi lugar favorito (´｡• ᵕ •｡)","Contigo se me olvida el mundo (´｡• ᵕ •｡)", "Te amo aunque a veces me de la tontera (๑•﹏•)", "Eres lo mejor de mis días (ﾉ´ヮ`)ﾉ*: ･ﾟ",
-  "Oye... me gustas, mucho. (>///<)","No te estreses tanto, mi amorcito <3","Hiciste caca hoy? jeje, importante (｡•̀ᴗ-)✧","Hola mi arqui, hazme una casa, pero en tu corazón bb","¿Me das un abracito? (づ￣ ³￣)づ", "Si lees esto, debes darme 3 besitos"];
+
+
+const frases = [
+  "Te amo <3", 
+  "Báñate (≧ᵕ≦)♡", 
+  "Sonríe ૮ • ﻌ - ა!!", 
+  "Piensa en mí >ᴗ< !!", 
+  "Toma awita!!", 
+  "Te extraño (• ᴖ •｡)", 
+  "Fuiste al gym? ᕙ(  •̀ ᗜ •́  )ᕗ", 
+  "Si lees esto te gusta el pilin (੭˃ᴗ˂)੭", 
+  "Te amo más ദ്ദി ˉ͈̀꒳ˉ͈́ )✧", 
+  "Abrígate porfis (｡•́︿•̀｡)", 
+  "Desayunaste ya? (｡•́︿•̀｡)", 
+  "Hoy es un buen día para amarme (๑˃ᴗ˂)ﻭ", 
+  "Te mereces una siesta ʕっ•ᴥ•ʔっ", 
+  "Eres mi persona favorita ( ⁎ᵕᴗᵕ⁎ )❤︎", 
+  "Cierra TikTok, amorcito (≖ᴗ≖ )", 
+  "No procrastines... o sí, pero conmigo (｡•̀ᴗ-)✧", 
+  "Te comería a besitos (｡♥‿♥｡)", 
+  "Eres mi motivación pa todo ʚ♡⃛ɞ(•ᴗ•❁)", 
+  "¿Ya sonreíste hoy? Hazlo por mí ( ´ ∀ )ノ～ ♡", 
+  "Solo quería recordarte que te amo (´･ᴗ･  )", 
+  "Eres mi lugar favorito (´｡• ᵕ •｡)", 
+  "Contigo se me olvida el mundo (´｡• ᵕ •｡)", 
+  "Te amo aunque a veces me de la tontera (๑•﹏•)", 
+  "Eres lo mejor de mis días (ﾉ´ヮ`)ﾉ*: ･ﾟ", 
+  "Oye... me gustas, mucho. (>///<)", 
+  "No te estreses tanto, mi amorcito <3", 
+  "Hiciste caca hoy? jeje, importante (｡•̀ᴗ-)✧", 
+  "Hola mi arqui, hazme una casa, pero en tu corazón bb", 
+  "¿Me das un abracito? (づ￣ ³￣)づ", 
+  "Si lees esto, debes darme 3 besitos",
+  "Eres mi sol en un día nublado ☀️", 
+  "Tus abrazos son mi lugar favorito (´ε｀ )♡", 
+  "¡Eres mi razón de sonreír cada día! (｡♥‿♥｡)", 
+  "A tu lado todo es más bonito (｡•̀ᴗ-)✧", 
+  "Me haces sentir la persona más afortunada del mundo ( ´ ∀ )ノ～ ♡", 
+  "Te adoro más de lo que las palabras pueden expresar (❁´◡`❁)", 
+  "A veces me pregunto cómo fue que tuve tanta suerte de encontrarte ( ´ ▽ ` )ﾉ", 
+  "Eres el sueño hecho realidad, te amo ( ˘ ³˘)♥", 
+  "La mejor parte de mi día es verte sonreír (｡♥‿♥｡)", 
+  "Que nadie te diga que no somos el match perfecto (≧◡≦)", 
+  "Siempre estaré aquí, en las buenas y en las malas ( ´ ▽ ` )", 
+  "Mi felicidad tiene tu nombre", 
+  "Que nunca falten tus besos (｡♥‿♥｡)", 
+  "Si pudiera darte una estrella, te daría el cielo completo (✩°｡⋆)", 
+  "Eres lo que me hace seguir adelante (✿◠‿◠)", 
+  "Cada día a tu lado es una nueva aventura (✩,)(✩,) ",
+  "Tus ojos son el reflejo de mi felicidad (｡•́‿•̀｡)",
+  "Lo mejor de mi vida es haberte encontrado ( ´ ▽ ` )ﾉ",
+  "Tus abrazos me dan fuerzas para todo (´ε｀ )♡",
+  "Eres mi pedazo de cielo (❁´◡`❁)",
+  "A tu lado no existe nada malo (｡♥‿♥｡)",
+  "Tú y yo, un equipo perfecto (ღ✪v✪)ღ",
+  "Me haces ser mejor persona, te amo (´∀｀)♡",
+  "Te haré feliz todos los días de mi vida (｡♥‿♥｡)",
+  "Eres mi primer pensamiento al despertar (´｡• ᵕ •｡)",
+  "Tu amor es mi fuerza y mi paz ( ´ ∀ ` )ノ～ ♡",
+  "Juntos somos invencibles (੭˃ᴗ˂)੭",
+  "Mi lugar favorito es a tu lado (ღ✧◡✧)",
+  "Te prometo que siempre estaré a tu lado (ღ˘⌣˘ღ)",
+  "Gracias por hacer mi vida mucho más hermosa (❣️)",
+  "Contigo el mundo se ve diferente (｡•̀ᴗ-)✧",
+  "Eres la razón por la que sonrío todos los días ( ´ ▽ ` )",
+  "No me canso de repetir lo mucho que te amo (｡♥‿♥｡)",
+  "Te quiero hoy, mañana y siempre (´ε｀ )♡",
+  "Te amo tanto que las palabras se quedan cortas (ღ✪v✪)ღ",
+];
   const mensajeMascota = document.getElementById('mensajeMascota');
   const petMessage = document.getElementById('petMessage');
 
@@ -616,6 +1022,243 @@
 function irAPlaylist() {
   showScreen('playlistScreen');
 }
+
+
+const dailyQuestions = [
+  "¿Qué te hizo sonreír hoy?",
+  "¿Qué es lo que más te gusta del otro?",
+  "Describe una cita soñada con tu pareja.",
+  "¿Qué canción te recuerda a nosotros?",
+  "¿Cuál es un sueño que quieres cumplir con tu pareja?",
+  "¿Qué detalle del otro te derrite?",
+  "¿Qué aprendiste de la relación esta semana?",
+  "¿Qué actividad nueva te gustaría hacer juntos?",
+  "¿Qué palabra define tu amor hoy?",
+  "¿Qué te gustaría decirle al otro hoy?",
+  "¿Qué significa para ti el amor?",
+  "¿Cuál es tu recuerdo favorito de nuestra relación?",
+  "¿Qué parte del día prefieres pasar con tu pareja?",
+  "¿Qué harías para sorprender al otro hoy?",
+  "¿Qué cualidades de tu pareja te inspiran?",
+  "¿Cómo sabes que amas al otro?",
+  "¿Qué hábito de tu pareja te gustaría adoptar?",
+  "¿Qué significa para ti el compromiso?",
+  "¿Qué superpoder te gustaría tener para sorprender a tu pareja?",
+  "¿Cómo te gustaría que fuera tu futuro juntos?",
+  "¿Qué tan importante es la comunicación en una relación?",
+  "¿Qué es lo que más te gusta hacer con tu pareja?",
+  "¿Qué te hace sentir más amado por el otro?",
+  "¿Qué te gustaría mejorar en tu relación?",
+  "¿Qué harías para hacer que tu pareja se sienta especial?",
+  "¿Qué significa para ti la confianza en una relación?",
+  "¿Qué es lo que más admiras de tu pareja?",
+  "¿Qué plan o sueño compartido te emociona más?",
+  "¿Cómo puedes apoyar mejor a tu pareja?",
+  "¿Qué tal vez no le has dicho nunca a tu pareja pero te gustaría?",
+  "¿Qué palabras o frases te hacen sentir más cercano a tu pareja?",
+  "¿Cómo te gustaría celebrar un aniversario especial?",
+  "¿Cuál es tu película favorita para ver juntos?",
+  "¿Cuál es tu comida favorita que ambos disfrutan?",
+  "¿Qué te gustaría hacer en un viaje romántico?",
+  "¿Qué te hace sentir más conectado con tu pareja?",
+  "¿Qué gesto simple te gustaría recibir más a menudo de tu pareja?",
+  "¿Cómo manejas los desacuerdos en la relación?",
+  "¿Qué es lo que más te asusta de la relación?",
+  "¿Qué esperas del futuro juntos?",
+  "¿Qué significa la lealtad para ti?",
+  "¿Cómo puedes mejorar como pareja cada día?",
+  "¿Cuál es la cualidad más atractiva de tu pareja?",
+  "¿Qué harías si pudieras pasar todo un día con tu pareja, sin preocupaciones?",
+  "¿Qué sueños tienes para los dos?",
+  "¿Qué significa para ti la empatía en una relación?",
+  "¿Cómo describirías tu relación en tres palabras?",
+  "¿Qué haces para mantener viva la chispa en la relación?",
+  "¿Qué es lo más divertido que han hecho juntos?",
+  "¿Cómo defines la felicidad en pareja?",
+  "¿Qué piensas sobre el concepto de alma gemela?",
+  "¿Qué harías si tu pareja no estuviera de acuerdo contigo?",
+  "¿Qué es lo que más valoras de tu pareja?",
+  "¿Qué diferencia de tu pareja te hace crecer como persona?",
+  "¿Qué es lo que te hace sentir más tranquilo con tu pareja?",
+  "¿Cómo te gustaría que fuera un día perfecto juntos?",
+  "¿Qué pequeñas cosas hacen que tu pareja se sienta especial?",
+  "¿Qué detalles son los que más aprecias del otro?",
+  "¿Cómo defines el respeto en la relación?",
+  "¿Qué sería un regalo perfecto para tu pareja?",
+  "¿Cómo te gustaría expresar tu amor sin palabras?",
+  "¿Qué actividades disfrutas hacer más con tu pareja?",
+  "¿Qué es lo que más te sorprende de tu pareja?",
+  "¿Qué harías para hacer sentir especial a tu pareja en un día común?",
+  "¿Qué significa el sacrificio en una relación?",
+  "¿Qué planes de futuro compartes con tu pareja?",
+  "¿Qué importancia le das a los momentos íntimos?",
+  "¿Qué has aprendido de tu pareja en el último mes?",
+  "¿Qué hace que te sientas seguro/a en la relación?",
+  "¿Qué es lo que más te gusta hacer para relajarte junto a tu pareja?",
+  "¿Cómo manejas los momentos difíciles en la relación?",
+  "¿Qué es lo que más valoras del amor que compartes?",
+  "¿Qué significa para ti tener espacio en una relación?",
+  "¿Cómo puedes seguir creciendo juntos como pareja?",
+  "¿Qué significa el apoyo emocional en una relación?",
+  "¿Qué significa la paciencia para ti en una relación?",
+  "¿Qué significa para ti compartir responsabilidades?",
+  "¿Qué esperas aprender de tu pareja este mes?",
+  "¿Cómo te gustaría mejorar la convivencia?",
+  "¿Qué tal vez no has dicho pero te gustaría compartir?",
+  "¿Cómo te gustaría pasar más tiempo con tu pareja?",
+  "¿Qué detalles de la relación te hacen sentir más conectado/a?",
+  "¿Cómo sientes que se expresa el amor en tu relación?",
+  "¿Qué te gustaría cambiar de ti para mejorar como pareja?",
+  "¿Qué piensas sobre la importancia de la amistad en una relación?",
+  "¿Cómo te gustaría fortalecer la relación a largo plazo?",
+  "¿Qué te hace sentir más amado/a por tu pareja?",
+  "¿Cómo pueden ambos sentirse más apreciados mutuamente?",
+  "¿Qué significa para ti el respeto mutuo?",
+  "¿Qué significa el perdón en una relación?",
+  "¿Qué harías para solucionar un malentendido con tu pareja?",
+  "¿Cómo quieres que tu relación sea vista por otros?",
+  "¿Qué aprendizaje te ha dejado esta relación hasta ahora?",
+  "¿Qué importancia tiene la diversión en pareja?",
+  "¿Qué harías para mejorar la forma de comunicarte con tu pareja?",
+  "¿Qué te gustaría que tu pareja te dijera hoy?",
+  "¿Qué harías si pudieras hacer un solo deseo por tu relación?",
+  "¿Qué te gustaría que tu pareja hiciera por ti este mes?",
+  "¿Cómo te gustaría sentirte más apoyado/a por tu pareja?",
+  "¿Cómo defines la complicidad en una relación?",
+  "¿Qué es lo que más te gusta hacer cuando ambos están relajados?",
+  "¿Qué significa para ti ser parte del mundo de tu pareja?",
+  "¿Qué te gustaría que mejorara en la relación?",
+  "¿Qué harías para sorprender a tu pareja en un día cualquiera?",
+  "¿Qué esperas del otro a largo plazo?",
+  "¿Qué aprendizaje has adquirido en esta relación?",
+  "¿Cómo te gustaría que se manejara el estrés en pareja?",
+  "¿Cómo quieres que crezca tu relación en los próximos meses?",
+  "¿Qué aspecto de la relación te gustaría explorar más?",
+  "¿Qué es lo que más valoras del amor que compartes?",
+  "¿Qué harías para mantener una relación divertida?",
+  "¿Qué te hace sentir que tu relación es única?",
+  "¿Qué te gustaría experimentar con tu pareja este año?",
+  "¿Qué significa para ti ser un buen oyente en la relación?",
+  "¿Qué harías para que tu relación sea más profunda?",
+  "¿Cómo te gustaría sentirte más cercano/a a tu pareja?",
+  "¿Qué harías para fortalecer la comunicación en la relación?",
+  "¿Qué es lo que más te gusta de tu pareja cuando está relajado/a?",
+  "¿Qué harías para hacer sentir a tu pareja más apreciada?",
+  "¿Qué te gustaría mejorar en el día a día de la relación?",
+  "¿Cómo manejas las diferencias de opinión en la relación?",
+  "¿Qué significa para ti la estabilidad emocional en la relación?",
+  "¿Qué detalles del día a día te hacen sentir más conectado/a?",
+  "¿Qué harías para hacer que cada día sea especial con tu pareja?",
+  "¿Qué significa para ti el esfuerzo mutuo?",
+  "¿Qué crees que hace que tu relación sea especial?",
+  "¿Qué harías para crear más recuerdos felices juntos?",
+  "¿Qué es lo que más te hace reír con tu pareja?",
+  "¿Qué harías para aumentar la confianza en tu relación?",
+  "¿Cómo te gustaría sorprender a tu pareja el próximo mes?",
+  "¿Qué es lo que más te hace sentir amado/a por tu pareja?",
+  "¿Qué harías para crear una rutina especial juntos?",
+  "¿Qué significa para ti la independencia en una relación?",
+  "¿Cómo describirías la relación en este momento de tu vida?",
+  "¿Qué harías para sorprender a tu pareja con un detalle único?",
+  "¿Qué significa para ti compartir momentos simples juntos?",
+  "¿Qué aprendizaje te ha dejado la relación hasta ahora?",
+  "¿Qué te gustaría que mejorara la relación?",
+  "¿Qué harías para que tu pareja se sintiera más querida?",
+  "¿Cómo te gustaría que se gestionara el tiempo en pareja?",
+  "¿Qué significa para ti el amor incondicional?",
+  "¿Qué harías para mejorar la diversión en la relación?",
+  "¿Qué te gustaría aprender más sobre tu pareja?",
+  "¿Cómo te gustaría que tu relación creciera en los próximos meses?"
+];
+
+function loadNewQuestion() {
+  const random = Math.floor(Math.random() * preguntas.length);
+  document.getElementById("dailyQuestion").textContent = preguntas[random];
+}
+
+  function showRandomQuestion() {
+  const random = Math.floor(Math.random() * dailyQuestions.length);
+  const question = dailyQuestions[random];
+
+  document.getElementById('dailyQuestion').innerHTML = `
+    ${question}<br><span style="font-size: 14px; color: #aa5a8d; display: block; margin-top: 5px;">🌸 Esta es una pregunta aleatoria 🌸</span>
+  `;
+
+  const todayKey = getTodayKey();
+  const stored = JSON.parse(localStorage.getItem('answers-' + todayKey)) || [];
+  displayAnswers(question, stored);
+}
+
+
+function getTodayKey() {
+  const today = new Date();
+  return today.toISOString().split('T')[0]; // YYYY-MM-DD
+}
+
+function loadDailyQuestion() {
+  const dayIndex = new Date().getDate() % dailyQuestions.length;
+  const question = dailyQuestions[dayIndex];
+  
+  document.getElementById('dailyQuestion').innerHTML = `
+  ${question}<br><span style="font-size: 14px; color: #aa5a8d; display: block; margin-top: 5px;">🌸 Recuerda que cada día será una pregunta distinta 🌸</span>
+  `;
+
+
+  const todayKey = getTodayKey();
+  const stored = JSON.parse(localStorage.getItem('answers-' + todayKey)) || [];
+  displayAnswers(question, stored);
+}
+
+
+function saveDailyAnswer() {
+  const name = document.getElementById('userNameInput').value.trim();
+  const text = document.getElementById('userAnswerInput').value.trim();
+  if (!name || !text) return alert('Por favor, escribe tu nombre y tu respuesta...');
+
+  const todayKey = getTodayKey();
+  const stored = JSON.parse(localStorage.getItem('answers-' + todayKey)) || [];
+
+  if (stored.length >= 2 && !stored.some(ans => ans.name === name)) {
+    return alert('Ya se respondieron las 2 respuestas hoy.');
+  }
+
+  const updated = stored.filter(ans => ans.name !== name);
+  updated.push({ name, text });
+  localStorage.setItem('answers-' + todayKey, JSON.stringify(updated));
+  displayAnswers(updated);
+  document.getElementById('userAnswerInput').value = "";
+}
+
+function displayAnswers(question, answers) {
+  const area = document.getElementById('answersArea');
+  area.innerHTML = ''; // Limpiar antes de mostrar
+
+  const questionElement = document.createElement('div');
+  questionElement.className = 'questionTitle';
+  questionElement.innerHTML = `💭 <strong>Pregunta del día:</strong> ${question}`;
+  area.appendChild(questionElement);
+
+  answers.forEach(ans => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'answerBubble';
+    if (ans.name.toLowerCase().includes('amira')) {
+      wrapper.classList.add('amira');
+    } else if (ans.name.toLowerCase().includes('thomas')) {
+      wrapper.classList.add('thomas');
+    }
+
+
+    wrapper.innerHTML = `
+      <p><strong>Respuesta:</strong> ${ans.text}</p>
+      <p style="margin-top:5px;"><strong> Respondido por:</strong> ${ans.name}</p>
+    `;
+
+    area.appendChild(wrapper);
+  });
+}
+
+loadDailyQuestion();
+
 
 </script>
 
@@ -723,6 +1366,136 @@ function irAPlaylist() {
 
 
   document.addEventListener("DOMContentLoaded", mostrarMensajes);
+
+  let cupones = [];
+
+function inicializarCupones() {
+  const guardados = localStorage.getItem("cuponesAmor");
+  if (guardados) {
+    cupones = JSON.parse(guardados);
+  } else {
+    cupones = [
+    { titulo: "🍿 Noche de película + abrazos", detalle: "¡Thomas, elige una película y nos abrazamos mientras la vemos! (Que no sea tan mala porfavor)", usado: false },
+    { titulo: "💆 Masaje express", detalle: "Thomas, te hago un masaje en espalda, hombros o donde tú quieras ", usado: false },
+    { titulo: "🍪 Cocinar algo juntos", detalle: "¡A cocinar galletas, postres o lo que se nos ocurra juntos! 💖", usado: false },
+    { titulo: "🍓 Picnic improvisado", detalle: "Vamos a preparar algo rico y tener un picnic improvisado, donde sea ", usado: false },
+    { titulo: "🛋️ Noche de maratón de series", detalle: "Elige una serie disfrutamos de una noche maratónica", usado: false },
+    { titulo: "💆‍♀️ Noche de skincare coreano", detalle: "Preparamos una rutina de skincare al estilo coreano. Mascarillas, hidratación y relajación mientras nos damos nanai", usado: false },  
+    { titulo: "🗣️ Día sin groserías", detalle: "Hoy es un día sin groserías, ¡si dices una, el otro tiene derecho a un reto! ", usado: false },
+     { titulo: "🍜 Ramen casero", detalle: "Nos retamos a cocinar ramen casero desde cero. ¿Quién será el chef estrella del ramen? 🍲 (obvio yo :p)", usado: false },
+     { titulo: "🍱 Cena en restaurante coreano", detalle: "Una cita en un restaurante coreano (en curico si hay)", usado: false },
+    { titulo: "🌆 Explorar la ciudad sin rumbo", detalle: "Vamos a dar un paseo sin planear a dónde vamos. Tomamos giros al azar y descubrimos nuevos rincones de la ciudad juntos ", usado: false },
+    ];
+    localStorage.setItem("cuponesAmor", JSON.stringify(cupones));
+  }
+
+  mostrarCupones();
+}
+
+function mostrarCupones() {
+  const contenedor = document.getElementById("listaCupones");
+  contenedor.innerHTML = "";
+
+  if (cupones.length === 0) {
+    contenedor.innerHTML = "<p style='color:#999;'>Aún no hay cupones creados 🥺</p>";
+    return;
+  }
+
+  cupones.forEach((cupon, index) => {
+    const cup = document.createElement("div");
+    cup.classList.add("cuponAnimado");
+
+    cup.style.border = "2px dashed #f48fb1";
+    cup.style.borderRadius = "12px";
+    cup.style.padding = "10px";
+    cup.style.marginBottom = "10px";
+    cup.style.background = cupon.usado ? "#fce4ec" : "#fff0f6";
+
+    cup.innerHTML = `
+      <p><strong>${cupon.titulo}</strong></p>
+      <p style="font-size: 14px;">${cupon.detalle}</p>
+      <button onclick="marcarComoUsado(${index})" style="margin-top:5px;">
+        ✅ ${cupon.usado ? "Usado 💔" : "Marcar como usado"}
+      </button>
+    `;
+    contenedor.appendChild(cup);
+  });
+}
+
+function mostrarFormularioCupon() {
+  document.getElementById("formularioCupon").style.display = "block";
+}
+
+function guardarCupon() {
+  const titulo = document.getElementById("tituloCupon").value.trim();
+  const detalle = document.getElementById("detalleCupon").value.trim();
+  if (!titulo) return alert("¡Escribe un título para el cupón!");
+
+  cupones.push({ titulo, detalle, usado: false });
+  localStorage.setItem("cuponesAmor", JSON.stringify(cupones));
+
+  document.getElementById("tituloCupon").value = "";
+  document.getElementById("detalleCupon").value = "";
+  document.getElementById("formularioCupon").style.display = "none";
+  mostrarCupones();
+}
+
+function marcarComoUsado(index) {
+  cupones[index].usado = !cupones[index].usado;
+  localStorage.setItem("cuponesAmor", JSON.stringify(cupones));
+  mostrarCupones();
+  lanzarConfeti(); 
+}
+
+function lanzarConfeti() {
+  const canvas = document.getElementById('confettiCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const confettis = Array.from({ length: 150 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * -canvas.height,
+    r: Math.random() * 6 + 2,
+    d: Math.random() * 15 + 5,
+    color: `hsl(${Math.random() * 360}, 100%, 75%)`,
+    tilt: Math.random() * 10 - 5,
+    tiltAngleIncrement: Math.random() * 0.07 + 0.05,
+    tiltAngle: 0
+  }));
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    confettis.forEach(c => {
+      ctx.beginPath();
+      ctx.lineWidth = c.r;
+      ctx.strokeStyle = c.color;
+      ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
+      ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.d / 2);
+      ctx.stroke();
+    });
+    update();
+  }
+
+  function update() {
+    confettis.forEach(c => {
+      c.tiltAngle += c.tiltAngleIncrement;
+      c.y += Math.cos(c.d / 2);
+      c.x += Math.sin(c.tiltAngle);
+      c.tilt = Math.sin(c.tiltAngle) * 15;
+
+      if (c.y > canvas.height) {
+        c.y = -10;
+        c.x = Math.random() * canvas.width;
+      }
+    });
+  }
+
+  let interval = setInterval(draw, 16);
+  setTimeout(() => clearInterval(interval), 3000); // dura 3 segundos
+}
+
+
 
 </script>
 
