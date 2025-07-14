@@ -1847,5 +1847,167 @@ document.addEventListener("DOMContentLoaded", mostrarGaleria);
   mostrarGaleria();
 </script>
 
+
+<!-- 💌 Buzón de Mensajes -->
+<section class="pantalla" id="pantallaBuzon" style="display: none;">
+  <div class="notepad" style="width: 95%; max-width: 640px; text-align: center;">
+    <h3 style="text-align: center;">📮 Nuestro Buzón</h3>   
+    <p style="margin-bottom: 20px; font-style: italic;">Deja un mensajito lindo o un recuerdo 💌</p>
+
+    <label for="autorMensaje" style="font-weight: bold;">¿Quién escribe?</label><br>
+    <select id="autorMensaje" style="margin: 10px auto 18px auto; padding: 8px 14px; border-radius: 10px; border: 2px solid #ec407a; background-color: #fff0f6; color: #880e4f;">
+      <option value="Amira">Amira 💖</option>
+      <option value="Thomas">Thomas 💙</option>
+    </select><br>
+
+    <textarea id="mensajeFuturo" rows="4" placeholder="Escribe algo bonito..." style="width: 100%; border-radius: 14px; padding: 12px; border: 2px solid #ec407a; background-color: #fffdfd;"></textarea><br>
+    <button onclick="enviarMensaje()" style="margin-top: 10px; padding: 8px 16px; border-radius: 12px; background-color: #ec407a; color: white; border: none;">Enviar ✨</button>
+    
+    <div id="listaMensajes" style="margin-top: 24px; text-align: left;"></div>
+  </div>
+</section>
+
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCBTK4lvPlv9CzjwIBsmonAYNyKOX8jMYc",
+    authDomain: "amiraythomas.firebaseapp.com",
+    projectId: "amiraythomas",
+    storageBucket: "amiraythomas.appspot.com",
+    messagingSenderId: "1091768566011",
+    appId: "1:1091768566011:web:a18fb7e0df4852591ff05e",
+    measurementId: "G-C5MDLWG0MB"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const autorMensaje = document.getElementById("autorMensaje");
+  const mensajeFuturo = document.getElementById("mensajeFuturo");
+  const listaMensajes = document.getElementById("listaMensajes");
+
+  window.enviarMensaje = async () => {
+    const autor = autorMensaje.value;
+    const texto = mensajeFuturo.value.trim();
+    if (texto === "") return;
+    await addDoc(collection(db, "buzon"), {
+      autor, texto, fecha: serverTimestamp()
+    });
+    mensajeFuturo.value = "";
+    cargarMensajes();
+  };
+
+  async function cargarMensajes() {
+    listaMensajes.innerHTML = "";
+    const q = query(collection(db, "buzon"), orderBy("fecha", "desc"));
+    const snapshot = await getDocs(q);
+    snapshot.forEach(doc => {
+      const { autor, texto, fecha } = doc.data();
+      const date = fecha?.toDate().toLocaleString("es-CL") ?? "⏳";
+      const msg = document.createElement("div");
+      msg.innerHTML = `<p><strong>${autor}:</strong> ${texto}<br><small style="color:gray;">${date}</small></p>`;
+      msg.style.background = "#ffeaf3";
+      msg.style.padding = "12px";
+      msg.style.borderRadius = "12px";
+      msg.style.marginBottom = "10px";
+      listaMensajes.appendChild(msg);
+    });
+  }
+
+  cargarMensajes();
+</script>
+
+
+<!-- 🎁 Pantalla de Cupones -->
+<section class="pantalla" id="pantallaCupones" style="display: none;">
+  <div class="notepad" style="width: 95%; max-width: 680px; text-align: center;">
+    <h3 style="text-align: center;">🎁 Nuestros Cupones</h3>
+    <p style="margin-bottom: 20px; font-style: italic;">Canjea o crea sorpresas lindas ✨</p>
+
+    <input type="text" id="nuevoTitulo" placeholder="Título del cupón (ej. 🍿 Noche de película)" style="width: 90%; padding: 8px; border-radius: 10px; margin-bottom: 8px;"><br>
+    <textarea id="nuevoDetalle" placeholder="Detalle (ej. Vemos una peli y comemos snacks 💖)" style="width: 90%; padding: 8px; border-radius: 10px;"></textarea><br>
+    <select id="creadoPor" style="margin-top: 6px; padding: 6px 12px; border-radius: 10px;">
+      <option value="Amira">Amira 💖</option>
+      <option value="Thomas">Thomas 💙</option>
+    </select><br>
+    <button onclick="crearCupon()" style="margin-top: 10px; padding: 8px 16px; border-radius: 12px; background-color: #ec407a; color: white; border: none;">Crear Cupón 💌</button>
+
+    <div id="listaCupones" style="margin-top: 24px;"></div>
+  </div>
+</section>
+
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCBTK4lvPlv9CzjwIBsmonAYNyKOX8jMYc",
+    authDomain: "amiraythomas.firebaseapp.com",
+    projectId: "amiraythomas",
+    storageBucket: "amiraythomas.appspot.com",
+    messagingSenderId: "1091768566011",
+    appId: "1:1091768566011:web:a18fb7e0df4852591ff05e",
+    measurementId: "G-C5MDLWG0MB"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const nuevoTitulo = document.getElementById("nuevoTitulo");
+  const nuevoDetalle = document.getElementById("nuevoDetalle");
+  const creadoPor = document.getElementById("creadoPor");
+  const listaCupones = document.getElementById("listaCupones");
+
+  window.crearCupon = async () => {
+    const titulo = nuevoTitulo.value.trim();
+    const detalle = nuevoDetalle.value.trim();
+    const autor = creadoPor.value;
+    if (titulo === "" || detalle === "") return;
+
+    await addDoc(collection(db, "cupones"), {
+      titulo, detalle, creadoPor: autor, usado: false, canjeadoPor: "", fechaCanjeo: null, creado: serverTimestamp()
+    });
+
+    nuevoTitulo.value = "";
+    nuevoDetalle.value = "";
+    cargarCupones();
+  };
+
+  window.canjearCupon = async (id, porQuien) => {
+    const docRef = doc(db, "cupones", id);
+    await updateDoc(docRef, {
+      usado: true,
+      canjeadoPor: porQuien,
+      fechaCanjeo: serverTimestamp()
+    });
+    cargarCupones();
+  };
+
+  async function cargarCupones() {
+    listaCupones.innerHTML = "";
+    const q = query(collection(db, "cupones"), orderBy("creado", "desc"));
+    const snapshot = await getDocs(q);
+    snapshot.forEach(docSnap => {
+      const cupon = docSnap.data();
+      const id = docSnap.id;
+      const usadoTxt = cupon.usado ? `✅ Canjeado por ${cupon.canjeadoPor} (${cupon.fechaCanjeo?.toDate().toLocaleString("es-CL") ?? ""})` : "";
+      const btn = cupon.usado ? "" : `<button onclick="canjearCupon('${id}', prompt('¿Quién lo canjea? Amira o Thomas'))" style="margin-top: 6px; padding: 6px 12px; border-radius: 10px; background-color: #43a047; color: white;">Canjear</button>`;
+      const el = document.createElement("div");
+      el.innerHTML = `<p><strong>${cupon.titulo}</strong><br>${cupon.detalle}<br><small>Creado por: ${cupon.creadoPor}</small><br><small style="color: gray;">${usadoTxt}</small></p>${btn}`;
+      el.style.background = "#e0f7fa";
+      el.style.padding = "12px";
+      el.style.borderRadius = "12px";
+      el.style.marginBottom = "12px";
+      listaCupones.appendChild(el);
+    });
+  }
+
+  cargarCupones();
+</script>
+
 </body>
 </html>
