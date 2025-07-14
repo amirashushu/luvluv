@@ -872,7 +872,6 @@
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
-
 <!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js" type="module"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js" type="module"></script>
@@ -1750,57 +1749,11 @@ document.addEventListener("DOMContentLoaded", mostrarGaleria);
 <div class="notepad" style="width: 95%; max-width: 720px; text-align: center;">
 <h3 style="text-align: center;">📸 Nuestra Galería</h3>
 <p style="margin-bottom: 20px; font-style: italic;">Subamos recuerdos juntos 💖</p>
-<input accept="image/*,video/*" id="fileInput" style="margin-bottom: 16px;" type="file"><br/>
+<input accept="image/*,video/*" id="fileInput" style="margin-bottom: 16px;" type="file"/><br/>
 <div id="galeria" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;"></div>
-</input></div>
+</div>
 </section>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js";
-  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCBTK4lvPlv9CzjwIBsmonAYNyKOX8jMYc",
-    authDomain: "amiraythomas.firebaseapp.com",
-    projectId: "amiraythomas",
-    storageBucket: "amiraythomas.appspot.com",
-    messagingSenderId: "1091768566011",
-    appId: "1:1091768566011:web:a18fb7e0df4852591ff05e",
-    measurementId: "G-C5MDLWG0MB"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const storage = getStorage(app);
-  const db = getFirestore(app);
-
-  const fileInput = document.getElementById("fileInput");
-  const galeria = document.getElementById("galeria");
-
-  fileInput?.addEventListener("change", async (e) => {
-    const file = e.target.files[0];
-    const storageRef = ref(storage, `galeria/${Date.now()}_${file.name}`);
-    await uploadBytes(storageRef, file);
-    const url = await getDownloadURL(storageRef);
-    await addDoc(collection(db, "galeria"), { url });
-    mostrarGaleria();
-  });
-
-  async function mostrarGaleria() {
-    galeria.innerHTML = "";
-    const snapshot = await getDocs(collection(db, "galeria"));
-    snapshot.forEach(doc => {
-      const { url } = doc.data();
-      const ext = url.split('.').pop().toLowerCase();
-      if (["mp4", "webm"].includes(ext)) {
-        galeria.innerHTML += `<video src="${url}" controls style="max-width: 150px; border-radius: 10px;"></video>`;
-      } else {
-        galeria.innerHTML += `<img src="${url}" style="max-width: 150px; border-radius: 10px;" />`;
-      }
-    });
-  }
-
-  mostrarGaleria();
-</script>
 <!-- 💌 Buzón de Mensajes -->
 <section class="pantalla" id="pantallaBuzon" style="display: none;">
 <div class="notepad" style="width: 95%; max-width: 640px; text-align: center;">
@@ -1816,57 +1769,7 @@ document.addEventListener("DOMContentLoaded", mostrarGaleria);
 <div id="listaMensajes" style="margin-top: 24px; text-align: left;"></div>
 </div>
 </section>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCBTK4lvPlv9CzjwIBsmonAYNyKOX8jMYc",
-    authDomain: "amiraythomas.firebaseapp.com",
-    projectId: "amiraythomas",
-    storageBucket: "amiraythomas.appspot.com",
-    messagingSenderId: "1091768566011",
-    appId: "1:1091768566011:web:a18fb7e0df4852591ff05e",
-    measurementId: "G-C5MDLWG0MB"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  const autorMensaje = document.getElementById("autorMensaje");
-  const mensajeFuturo = document.getElementById("mensajeFuturo");
-  const listaMensajes = document.getElementById("listaMensajes");
-
-  window.enviarMensaje = async () => {
-    const autor = autorMensaje.value;
-    const texto = mensajeFuturo.value.trim();
-    if (texto === "") return;
-    await addDoc(collection(db, "buzon"), {
-      autor, texto, fecha: serverTimestamp()
-    });
-    mensajeFuturo.value = "";
-    cargarMensajes();
-  };
-
-  async function cargarMensajes() {
-    listaMensajes.innerHTML = "";
-    const q = query(collection(db, "buzon"), orderBy("fecha", "desc"));
-    const snapshot = await getDocs(q);
-    snapshot.forEach(doc => {
-      const { autor, texto, fecha } = doc.data();
-      const date = fecha?.toDate().toLocaleString("es-CL") ?? "⏳";
-      const msg = document.createElement("div");
-      msg.innerHTML = `<p><strong>${autor}:</strong> ${texto}<br><small style="color:gray;">${date}</small></p>`;
-      msg.style.background = "#ffeaf3";
-      msg.style.padding = "12px";
-      msg.style.borderRadius = "12px";
-      msg.style.marginBottom = "10px";
-      listaMensajes.appendChild(msg);
-    });
-  }
-
-  cargarMensajes();
-</script>
 <!-- 🎁 Pantalla de Cupones -->
 <section class="pantalla" id="pantallaCupones" style="display: none;">
 <div class="notepad" style="width: 95%; max-width: 680px; text-align: center;">
@@ -1882,10 +1785,14 @@ document.addEventListener("DOMContentLoaded", mostrarGaleria);
 <div id="listaCupones" style="margin-top: 24px;"></div>
 </div>
 </section>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
+
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script>
   const firebaseConfig = {
     apiKey: "AIzaSyCBTK4lvPlv9CzjwIBsmonAYNyKOX8jMYc",
     authDomain: "amiraythomas.firebaseapp.com",
@@ -1895,90 +1802,9 @@ document.addEventListener("DOMContentLoaded", mostrarGaleria);
     appId: "1:1091768566011:web:a18fb7e0df4852591ff05e",
     measurementId: "G-C5MDLWG0MB"
   };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  const nuevoTitulo = document.getElementById("nuevoTitulo");
-  const nuevoDetalle = document.getElementById("nuevoDetalle");
-  const creadoPor = document.getElementById("creadoPor");
-  const listaCupones = document.getElementById("listaCupones");
-
-  window.crearCupon = async () => {
-    const titulo = nuevoTitulo.value.trim();
-    const detalle = nuevoDetalle.value.trim();
-    const autor = creadoPor.value;
-    if (titulo === "" || detalle === "") return;
-
-    await addDoc(collection(db, "cupones"), {
-      titulo, detalle, creadoPor: autor, usado: false, canjeadoPor: "", fechaCanjeo: null, creado: serverTimestamp()
-    });
-
-    nuevoTitulo.value = "";
-    nuevoDetalle.value = "";
-    cargarCupones();
-  };
-
-  window.canjearCupon = async (id, porQuien) => {
-    const docRef = doc(db, "cupones", id);
-    await updateDoc(docRef, {
-      usado: true,
-      canjeadoPor: porQuien,
-      fechaCanjeo: serverTimestamp()
-    });
-    cargarCupones();
-  };
-
-  async function cargarCupones() {
-    listaCupones.innerHTML = "";
-    const q = query(collection(db, "cupones"), orderBy("creado", "desc"));
-    const snapshot = await getDocs(q);
-    snapshot.forEach(docSnap => {
-      const cupon = docSnap.data();
-      const id = docSnap.id;
-      const usadoTxt = cupon.usado ? `✅ Canjeado por ${cupon.canjeadoPor} (${cupon.fechaCanjeo?.toDate().toLocaleString("es-CL") ?? ""})` : "";
-      const btn = cupon.usado ? "" : `<button onclick="canjearCupon('${id}', prompt('¿Quién lo canjea? Amira o Thomas'))" style="margin-top: 6px; padding: 6px 12px; border-radius: 10px; background-color: #43a047; color: white;">Canjear</button>`;
-      const el = document.createElement("div");
-      el.innerHTML = `<p><strong>${cupon.titulo}</strong><br>${cupon.detalle}<br><small>Creado por: ${cupon.creadoPor}</small><br><small style="color: gray;">${usadoTxt}</small></p>${btn}`;
-      el.style.background = "#e0f7fa";
-      el.style.padding = "12px";
-      el.style.borderRadius = "12px";
-      el.style.marginBottom = "12px";
-      listaCupones.appendChild(el);
-    });
-  }
-
-  cargarCupones();
-</script>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyCBTK4lvPlv9CzjwIBsmonAYNyKOX8jMYc",
-    authDomain: "amiraythomas.firebaseapp.com",
-    projectId: "amiraythomas",
-    storageBucket: "amiraythomas.appspot.com",
-    messagingSenderId: "1091768566011",
-    appId: "1:1091768566011:web:a18fb7e0df4852591ff05e",
-    measurementId: "G-C5MDLWG0MB"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  // TEST: guardar mensaje en Firestore para comprobar conexión
-  try {
-    const docRef = await addDoc(collection(db, "testConexion"), {
-      autor: "Amira 💖",
-      mensaje: "Test automático de Firebase completado",
-      fecha: new Date().toISOString()
-    });
-    console.log("✅ Test guardado en Firestore con ID:", docRef.id);
-  } catch (e) {
-    console.error("❌ Error al guardar en Firestore:", e);
-  }
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const storage = firebase.storage();
 </script>
 </body>
 </html>
