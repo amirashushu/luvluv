@@ -1,12 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Amira y Thomas</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Amira y Thomas</title>
+<style>
     @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Cookie&display=swap');
+    
 
     * {
       box-sizing: border-box;
@@ -863,195 +865,155 @@
 
 
   </style>
-
-
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
-
-
 <!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
 
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js" type="module"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js" type="module"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js" type="module"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js" type="module"></script>
 </head>
 <body>
-  
-    <div id="hearts-container"></div>
-<div id="passwordScreen" class="screen password-screen active">
-  <h2>🗝₊˚⊹♡ Ingresa la clave secreta</h2>
-  <div class="input-display" id="inputDisplay">••••</div>
-  <div class="keypad">
-    <button class="key" onclick="enterDigit('1')">1</button>
-    <button class="key" onclick="enterDigit('2')">2</button>
-    <button class="key" onclick="enterDigit('3')">3</button>
-    <button class="key" onclick="enterDigit('4')">4</button>
-    <button class="key" onclick="enterDigit('5')">5</button>
-    <button class="key" onclick="enterDigit('6')">6</button>
-    <button class="key" onclick="enterDigit('7')">7</button>
-    <button class="key" onclick="enterDigit('8')">8</button>
-    <button class="key" onclick="enterDigit('9')">9</button>
-    <div></div>
-    <button class="key" onclick="enterDigit('0')">0</button>
-    <div></div>
-  </div>
+<div id="hearts-container"></div>
+<div class="screen password-screen active" id="passwordScreen">
+<h2>🗝₊˚⊹♡ Ingresa la clave secreta</h2>
+<div class="input-display" id="inputDisplay">••••</div>
+<div class="keypad">
+<button class="key" onclick="enterDigit('1')">1</button>
+<button class="key" onclick="enterDigit('2')">2</button>
+<button class="key" onclick="enterDigit('3')">3</button>
+<button class="key" onclick="enterDigit('4')">4</button>
+<button class="key" onclick="enterDigit('5')">5</button>
+<button class="key" onclick="enterDigit('6')">6</button>
+<button class="key" onclick="enterDigit('7')">7</button>
+<button class="key" onclick="enterDigit('8')">8</button>
+<button class="key" onclick="enterDigit('9')">9</button>
+<div></div>
+<button class="key" onclick="enterDigit('0')">0</button>
+<div></div>
 </div>
-
-<div id="notepadScreen" class="screen">
-  <div class="notepad">
-    <h3>🗒 14 Julio 2025</h3>
-    <h4>Para mi querido Thomas ‹𝟹 :</h4>
-    <p>Hoy cumplimos un mes, el primero de bastantes que continúan por delante. Quiero que sepas lo feliz que soy por tenerte a mi lado. Desde que llegaste ese día tan random, todo cambió para mejor. Gracias por haber sido mi regalo de cumpleaños (づ˶•༝•˶)づ♡.</p>
-    <p>No sé cómo explicarlo, pero contigo siento que todo tiene más sentido. Me haces sentir amada, querida, acompañada… incluso cuando no estás cerca. Y eso no es algo que cualquiera logra. A tu lado estoy aprendiendo lo que es realmente el amor. Hemos pasado por tantas emociones en tan poco tiempo... es como una montaña rusa de emociones, pero una que repetiría mil veces contigo.</p>
-    <p>Estuviste a mi lado en mi peor momento, te quedaste cuando más lo necesitaba, me apoyaste a pesar de todo y me hiciste recordar por qué vale la pena vivir día a día. Eres un solcito, mi alegría constante, y solo espero seguir teniendo esa calidez que emites por mucho, mucho tiempo más. (ෆ˙ᵕ˙ෆ)♡</p>
-    <p>Me haces reír con tus chistes malos, que igual amo porque vienen de ti (yo soy la chistosa de la relación). Sé que no eres perfecto, y eso también me gusta, porque no busco perfección, sino algo real y contigo todo se siente así.</p>
-    <p>¿Quién lo diría? Ahora estás acá a mi lado, convirtiéndote poco a poco en parte de mi rutina, de mis días, de mis pensamientos. Ya me generaste una necesidad, y no me imagino la vida sin ti. Me ilusiona el hecho de seguir construyendo esto, paso a paso, con risas, mañoseos, aprendizajes y amor.</p>
-    <p>Me emociona pensar en todo lo que nos queda por vivir, en los lugares que podríamos conocer, en los abrazos que todavía no nos damos, en las cosas que nos quedan por hacer. Gracias por mirarme como si fuera lo más lindo que viste en el día, por elegirme a pesar de todo. Thomas, te elegiría una y mil veces más.</p>
-    <p>Te amo profundamente, ¡feliz primer mes! ♡</p>
-  </div>
-    <div class="nav-buttons">
-    <button onclick="volverAlBloqueo()">Volver</button>
-    <button onclick="irAPlaylist()">Continuar</button>
-    </div>
-  <div id="sorpresa" class="nota-sorpresa">P.D: Te amo más cada día (づ￣ ³￣)づ</div>
-
-
 </div>
-
-<div id="playlistScreen" class="screen">
-  <div class="playlist-container-enhanced">
-    <h3>Playlist</h3>
-    <p class="frase-romantica">Canciones que me recuerdan lo bonito que es estar juntos ♡</p>
-    
-    <iframe
-      src="https://open.spotify.com/embed/playlist/1031FzY2heFzULY7yvwaEq?utm_source=generator"
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      loading="lazy">
-    </iframe>
-    
-    <div class="nav-buttons">
-      <button onclick="showScreen('notepadScreen')">❮ Atrás</button>
-      <button onclick="showScreen('buzonScreen')">Continuar</button>
-    </div>
-  </div>
+<div class="screen" id="notepadScreen">
+<div class="notepad">
+<h3>🗒 14 Julio 2025</h3>
+<h4>Para mi querido Thomas ‹𝟹 :</h4>
+<p>Hoy cumplimos un mes, el primero de bastantes que continúan por delante. Quiero que sepas lo feliz que soy por tenerte a mi lado. Desde que llegaste ese día tan random, todo cambió para mejor. Gracias por haber sido mi regalo de cumpleaños (づ˶•༝•˶)づ♡.</p>
+<p>No sé cómo explicarlo, pero contigo siento que todo tiene más sentido. Me haces sentir amada, querida, acompañada… incluso cuando no estás cerca. Y eso no es algo que cualquiera logra. A tu lado estoy aprendiendo lo que es realmente el amor. Hemos pasado por tantas emociones en tan poco tiempo... es como una montaña rusa de emociones, pero una que repetiría mil veces contigo.</p>
+<p>Estuviste a mi lado en mi peor momento, te quedaste cuando más lo necesitaba, me apoyaste a pesar de todo y me hiciste recordar por qué vale la pena vivir día a día. Eres un solcito, mi alegría constante, y solo espero seguir teniendo esa calidez que emites por mucho, mucho tiempo más. (ෆ˙ᵕ˙ෆ)♡</p>
+<p>Me haces reír con tus chistes malos, que igual amo porque vienen de ti (yo soy la chistosa de la relación). Sé que no eres perfecto, y eso también me gusta, porque no busco perfección, sino algo real y contigo todo se siente así.</p>
+<p>¿Quién lo diría? Ahora estás acá a mi lado, convirtiéndote poco a poco en parte de mi rutina, de mis días, de mis pensamientos. Ya me generaste una necesidad, y no me imagino la vida sin ti. Me ilusiona el hecho de seguir construyendo esto, paso a paso, con risas, mañoseos, aprendizajes y amor.</p>
+<p>Me emociona pensar en todo lo que nos queda por vivir, en los lugares que podríamos conocer, en los abrazos que todavía no nos damos, en las cosas que nos quedan por hacer. Gracias por mirarme como si fuera lo más lindo que viste en el día, por elegirme a pesar de todo. Thomas, te elegiría una y mil veces más.</p>
+<p>Te amo profundamente, ¡feliz primer mes! ♡</p>
 </div>
-
-
-<div id="buzonScreen" class="screen">
-  <div class="notepad" style="width: 95%; max-width: 640px; text-align: center;">
-    <h3 class="fancyFont" style="text-align: center;">📮 Nuestro Buzón</h3>
-    <p style="margin-bottom: 20px; font-style: italic;">Deja un mensajito lindo o un recuerdo 💌</p>
-
-    <label for="autorMensaje" style="font-weight: bold;">¿Quién escribe?</label><br>
-    <select id="autorMensaje" style="margin: 10px auto 18px auto; padding: 8px 14px; border-radius: 10px; border: 2px solid #ec407a; background-color: #fff0f6; color: #880e4f;">
-      <option value="Amira">Amira 💖</option>
-      <option value="Thomas">Thomas 💙</option>
-    </select><br>
-
-    <textarea id="mensajeFuturo" rows="4" style="width: 100%; border-radius: 14px; padding: 12px; font-size: 16px; background: #ffffff; border: 2px dashed #ec407a;" placeholder="Ej: Hoy fuimos a pasear por el cerro..."></textarea>
-
-    <button onclick="guardarMensaje()" style="margin-top: 18px; background-color: #ec407a; color: white; padding: 10px 24px; border: none; border-radius: 14px; font-weight: bold;">💌 Guardar recuerdo</button>
-
-    <div id="mensajesGuardados" style="margin-top: 40px;">
-      <h4 class="fancyFont" style="text-align: center; margin-bottom: 18px;">📬 Mensajes guardados</h4>
-      <ul id="listaMensajes" style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px;"></ul>
-    </div>
-
-    <div class="nav-buttons" style="margin-top: 30px;">
-      <button onclick="showScreen('playlistScreen')">❮ Atrás</button>
-      <button onclick="showScreen('tiempoScreen')">Continuar</button>
-
-    </div>
-  </div>
+<div class="nav-buttons">
+<button onclick="volverAlBloqueo()">Volver</button>
+<button onclick="irAPlaylist()">Continuar</button>
 </div>
-
-<div id="tiempoScreen" class="screen">
-  <div class="tiempo-container">
-    <h3> Nuestro tiempo juntos </h3>
-    <div id="relationshipTimer" class="tiempo-box">
+<div class="nota-sorpresa" id="sorpresa">P.D: Te amo más cada día (づ￣ ³￣)づ</div>
+</div>
+<div class="screen" id="playlistScreen">
+<div class="playlist-container-enhanced">
+<h3>Playlist</h3>
+<p class="frase-romantica">Canciones que me recuerdan lo bonito que es estar juntos ♡</p>
+<iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" src="https://open.spotify.com/embed/playlist/1031FzY2heFzULY7yvwaEq?utm_source=generator">
+</iframe>
+<div class="nav-buttons">
+<button onclick="showScreen('notepadScreen')">❮ Atrás</button>
+<button onclick="showScreen('buzonScreen')">Continuar</button>
+</div>
+</div>
+</div>
+<div class="screen" id="buzonScreen">
+<div class="notepad" style="width: 95%; max-width: 640px; text-align: center;">
+<h3 class="fancyFont" style="text-align: center;">📮 Nuestro Buzón</h3>
+<p style="margin-bottom: 20px; font-style: italic;">Deja un mensajito lindo o un recuerdo 💌</p>
+<label for="autorMensaje" style="font-weight: bold;">¿Quién escribe?</label><br/>
+<select id="autorMensaje" style="margin: 10px auto 18px auto; padding: 8px 14px; border-radius: 10px; border: 2px solid #ec407a; background-color: #fff0f6; color: #880e4f;">
+<option value="Amira">Amira 💖</option>
+<option value="Thomas">Thomas 💙</option>
+</select><br/>
+<textarea id="mensajeFuturo" placeholder="Ej: Hoy fuimos a pasear por el cerro..." rows="4" style="width: 100%; border-radius: 14px; padding: 12px; font-size: 16px; background: #ffffff; border: 2px dashed #ec407a;"></textarea>
+<button onclick="guardarMensaje()" style="margin-top: 18px; background-color: #ec407a; color: white; padding: 10px 24px; border: none; border-radius: 14px; font-weight: bold;">💌 Guardar recuerdo</button>
+<div id="mensajesGuardados" style="margin-top: 40px;">
+<h4 class="fancyFont" style="text-align: center; margin-bottom: 18px;">📬 Mensajes guardados</h4>
+<ul id="listaMensajes" style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px;"></ul>
+</div>
+<div class="nav-buttons" style="margin-top: 30px;">
+<button onclick="showScreen('playlistScreen')">❮ Atrás</button>
+<button onclick="showScreen('tiempoScreen')">Continuar</button>
+</div>
+</div>
+</div>
+<div class="screen" id="tiempoScreen">
+<div class="tiempo-container">
+<h3> Nuestro tiempo juntos </h3>
+<div class="tiempo-box" id="relationshipTimer">
       ⏳ Calculando cuánto llevamos juntos ...
     </div>
-    <p class="frase-romantica">y vamos por más!! (⸝⸝> ω <⸝⸝)</p>
-    <div class="nav-buttons">
-      <button onclick="showScreen('buzonScreen')">❮ Atrás</button>
-      <button onclick="showScreen('preguntaDiariaScreen')"> Continuar</button>
-
-    </div>
-  </div>
+<p class="frase-romantica">y vamos por más!! (⸝⸝&gt; ω &lt;⸝⸝)</p>
+<div class="nav-buttons">
+<button onclick="showScreen('buzonScreen')">❮ Atrás</button>
+<button onclick="showScreen('preguntaDiariaScreen')"> Continuar</button>
 </div>
-
-<div id="preguntaDiariaScreen" class="screen">
-  <h2 style="color:#d81b60; margin-bottom: 10px;">📝 Pregunta del día</h2>
-
-  <div class="notepad" style="text-align: center;">
-    <p id="dailyQuestion"></p>
-
-    <button onclick="showRandomQuestion()" class="cambio-pregunta-btn">🔄 Otra pregunta</button>
-
-  <input id="userNameInput" placeholder="Tu nombre" />
-  <textarea id="userAnswerInput" placeholder="Tu respuesta..." rows="3"></textarea>
-
-  <button onclick="saveDailyAnswer()" style="margin-top:10px;">Enviar</button>
-  <div id="answersArea" style="margin-top:20px;"></div>
-  </div>
-
-  <div class="nav-buttons">
-    <button onclick="showScreen('buzonScreen')">❮ Atrás</button>
-    <button onclick="showScreen('cuponesScreen'); inicializarCupones()">Continuar</button>
-  </div>
 </div>
-
-<div id="cuponesScreen" class="screen">
-  <h2 style="color: #ec407a;">Cupones</h2>
-
-  <div id="listaCupones" style="margin-top: 20px;"></div>
-
-  <button onclick="mostrarFormularioCupon()" class="temaBtn">➕ Crear cupón</button>
-
-  <div id="formularioCupon" style="display: none; margin-top: 15px;">
-    <input id="tituloCupon" placeholder="¿Qué vale?" style="padding: 8px; border-radius: 10px; width: 80%;"><br>
-    <textarea id="detalleCupon" rows="2" placeholder="Detalles del cupón..." style="width: 80%; border-radius: 10px; padding: 8px; margin-top: 5px;"></textarea><br>
-    <button onclick="guardarCupon()" style="margin-top: 5px;">💌 Guardar</button>
-  </div>
-
-  <div class="nav-buttons">
-    <button onclick="showScreen('preguntaDiariaScreen')">❮ Volver</button>
-    <button onclick="showScreen('galeriaScreen')">Continuar</button>
-
-  </div>
-  <canvas id="confettiCanvas" style="position: fixed; top: 0; left: 0; pointer-events: none; width: 100%; height: 100%; z-index: 999;"></canvas>
 </div>
-
-<div id="galeriaScreen" class="screen">
-  <div class="notepad" style="width: 95%; max-width: 720px; text-align: center;">
-    <h3 class="fancyFont" style="font-size: 26px;">Nuestra Galería de Recuerdos</h3>
-    <p style="font-style: italic; margin-bottom: 20px;">Aquí guardamos todos los momentos lindos juntos ( ˶ˆᗜˆ˵ )</p>
-
-    <label for="archivoGaleria" class="upload-label">
+<div class="screen" id="preguntaDiariaScreen">
+<h2 style="color:#d81b60; margin-bottom: 10px;">📝 Pregunta del día</h2>
+<div class="notepad" style="text-align: center;">
+<p id="dailyQuestion"></p>
+<button class="cambio-pregunta-btn" onclick="showRandomQuestion()">🔄 Otra pregunta</button>
+<input id="userNameInput" placeholder="Tu nombre"/>
+<textarea id="userAnswerInput" placeholder="Tu respuesta..." rows="3"></textarea>
+<button onclick="saveDailyAnswer()" style="margin-top:10px;">Enviar</button>
+<div id="answersArea" style="margin-top:20px;"></div>
+</div>
+<div class="nav-buttons">
+<button onclick="showScreen('buzonScreen')">❮ Atrás</button>
+<button onclick="showScreen('cuponesScreen'); inicializarCupones()">Continuar</button>
+</div>
+</div>
+<div class="screen" id="cuponesScreen">
+<h2 style="color: #ec407a;">Cupones</h2>
+<div id="listaCupones" style="margin-top: 20px;"></div>
+<button class="temaBtn" onclick="mostrarFormularioCupon()">➕ Crear cupón</button>
+<div id="formularioCupon" style="display: none; margin-top: 15px;">
+<input id="tituloCupon" placeholder="¿Qué vale?" style="padding: 8px; border-radius: 10px; width: 80%;"/><br/>
+<textarea id="detalleCupon" placeholder="Detalles del cupón..." rows="2" style="width: 80%; border-radius: 10px; padding: 8px; margin-top: 5px;"></textarea><br/>
+<button onclick="guardarCupon()" style="margin-top: 5px;">💌 Guardar</button>
+</div>
+<div class="nav-buttons">
+<button onclick="showScreen('preguntaDiariaScreen')">❮ Volver</button>
+<button onclick="showScreen('galeriaScreen')">Continuar</button>
+</div>
+<canvas id="confettiCanvas" style="position: fixed; top: 0; left: 0; pointer-events: none; width: 100%; height: 100%; z-index: 999;"></canvas>
+</div>
+<div class="screen" id="galeriaScreen">
+<div class="notepad" style="width: 95%; max-width: 720px; text-align: center;">
+<h3 class="fancyFont" style="font-size: 26px;">Nuestra Galería de Recuerdos</h3>
+<p style="font-style: italic; margin-bottom: 20px;">Aquí guardamos todos los momentos lindos juntos ( ˶ˆᗜˆ˵ )</p>
+<label class="upload-label" for="archivoGaleria">
       📁 Elegir archivos
-      <input type="file" id="archivoGaleria" accept="image/*,video/*" multiple hidden>
-    </label>
-
-    <button onclick="guardarGaleria()" class="boton-romantico" style="margin-top: 12px;">💾 Guardar </button>
-
-    <div id="contenedorGaleria" class="galeria-kawaii"></div>
-
-    <div class="nav-buttons" style="margin-top: 30px;">
-      <button onclick="showScreen('cuponesScreen')">❮ Atrás</button>
-    </div>
-  </div>
+      <input accept="image/*,video/*" hidden="" id="archivoGaleria" multiple="" type="file"/>
+</label>
+<button class="boton-romantico" onclick="guardarGaleria()" style="margin-top: 12px;">💾 Guardar </button>
+<div class="galeria-kawaii" id="contenedorGaleria"></div>
+<div class="nav-buttons" style="margin-top: 30px;">
+<button onclick="showScreen('cuponesScreen')">❮ Atrás</button>
 </div>
-
-
-
-<audio id="bgMusic" src="blue.mp3" loop preload="auto"></audio>
+</div>
+</div>
+<audio id="bgMusic" loop="" preload="auto" src="blue.mp3"></audio>
 <button id="musicPlayer">▶️ Música</button>
 <div class="pet-container">
-  <img id="petImg" src="mascota1.png" alt="Mascota linda">
-  <div class="pet-message" id="petMessage">Hola 💕</div>
+<img alt="Mascota linda" id="petImg" src="mascota1.png"/>
+<div class="pet-message" id="petMessage">Hola 💕</div>
 </div>
-
 <script>
   const correctPassword = '1406';
   let input = '';
@@ -1447,7 +1409,6 @@ loadDailyQuestion();
 
 
 </script>
-
 <script>
   const heartContainer = document.getElementById("hearts-container");
     for (let i = 0; i < 25; i++) {
@@ -1460,7 +1421,7 @@ loadDailyQuestion();
     }
 
 </script>
-  <script>
+<script>
   const sakuraContainer = document.createElement('div');
   sakuraContainer.style.position = 'fixed';
   sakuraContainer.style.top = '0';
@@ -1515,7 +1476,6 @@ loadDailyQuestion();
 
   setInterval(actualizarTiempoJuntos, 1000);
 </script>
-
 <script>
     function guardarMensaje() {
   const mensaje = document.getElementById("mensajeFuturo").value.trim();
@@ -1738,7 +1698,6 @@ document.addEventListener("DOMContentLoaded", mostrarGaleria);
 
 
 </script>
-
 <script>
   const firebaseConfig = {
     apiKey: "AIzaSyCBTK4lvPlv9CzjwIBsmonAYNyKOX8jMYc",
@@ -1786,19 +1745,15 @@ document.addEventListener("DOMContentLoaded", mostrarGaleria);
 
   mostrarGaleria();
 </script>
-
-
 <!-- 🌸 Galería compartida Firebase -->
 <section class="pantalla pantalla-galeria" id="pantallaGaleria" style="display: none;">
-  <div class="notepad" style="width: 95%; max-width: 720px; text-align: center;">
-    <h3 style="text-align: center;">📸 Nuestra Galería</h3>
-    <p style="margin-bottom: 20px; font-style: italic;">Subamos recuerdos juntos 💖</p>
-    <input type="file" id="fileInput" accept="image/*,video/*" style="margin-bottom: 16px;"/><br>
-    <div id="galeria" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;"></div>
-  </div>
+<div class="notepad" style="width: 95%; max-width: 720px; text-align: center;">
+<h3 style="text-align: center;">📸 Nuestra Galería</h3>
+<p style="margin-bottom: 20px; font-style: italic;">Subamos recuerdos juntos 💖</p>
+<input accept="image/*,video/*" id="fileInput" style="margin-bottom: 16px;" type="file"><br/>
+<div id="galeria" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;"></div>
+</input></div>
 </section>
-
-
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
   import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js";
@@ -1846,28 +1801,21 @@ document.addEventListener("DOMContentLoaded", mostrarGaleria);
 
   mostrarGaleria();
 </script>
-
-
 <!-- 💌 Buzón de Mensajes -->
 <section class="pantalla" id="pantallaBuzon" style="display: none;">
-  <div class="notepad" style="width: 95%; max-width: 640px; text-align: center;">
-    <h3 style="text-align: center;">📮 Nuestro Buzón</h3>   
-    <p style="margin-bottom: 20px; font-style: italic;">Deja un mensajito lindo o un recuerdo 💌</p>
-
-    <label for="autorMensaje" style="font-weight: bold;">¿Quién escribe?</label><br>
-    <select id="autorMensaje" style="margin: 10px auto 18px auto; padding: 8px 14px; border-radius: 10px; border: 2px solid #ec407a; background-color: #fff0f6; color: #880e4f;">
-      <option value="Amira">Amira 💖</option>
-      <option value="Thomas">Thomas 💙</option>
-    </select><br>
-
-    <textarea id="mensajeFuturo" rows="4" placeholder="Escribe algo bonito..." style="width: 100%; border-radius: 14px; padding: 12px; border: 2px solid #ec407a; background-color: #fffdfd;"></textarea><br>
-    <button onclick="enviarMensaje()" style="margin-top: 10px; padding: 8px 16px; border-radius: 12px; background-color: #ec407a; color: white; border: none;">Enviar ✨</button>
-    
-    <div id="listaMensajes" style="margin-top: 24px; text-align: left;"></div>
-  </div>
+<div class="notepad" style="width: 95%; max-width: 640px; text-align: center;">
+<h3 style="text-align: center;">📮 Nuestro Buzón</h3>
+<p style="margin-bottom: 20px; font-style: italic;">Deja un mensajito lindo o un recuerdo 💌</p>
+<label for="autorMensaje" style="font-weight: bold;">¿Quién escribe?</label><br/>
+<select id="autorMensaje" style="margin: 10px auto 18px auto; padding: 8px 14px; border-radius: 10px; border: 2px solid #ec407a; background-color: #fff0f6; color: #880e4f;">
+<option value="Amira">Amira 💖</option>
+<option value="Thomas">Thomas 💙</option>
+</select><br/>
+<textarea id="mensajeFuturo" placeholder="Escribe algo bonito..." rows="4" style="width: 100%; border-radius: 14px; padding: 12px; border: 2px solid #ec407a; background-color: #fffdfd;"></textarea><br/>
+<button onclick="enviarMensaje()" style="margin-top: 10px; padding: 8px 16px; border-radius: 12px; background-color: #ec407a; color: white; border: none;">Enviar ✨</button>
+<div id="listaMensajes" style="margin-top: 24px; text-align: left;"></div>
+</div>
 </section>
-
-
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
   import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
@@ -1919,27 +1867,21 @@ document.addEventListener("DOMContentLoaded", mostrarGaleria);
 
   cargarMensajes();
 </script>
-
-
 <!-- 🎁 Pantalla de Cupones -->
 <section class="pantalla" id="pantallaCupones" style="display: none;">
-  <div class="notepad" style="width: 95%; max-width: 680px; text-align: center;">
-    <h3 style="text-align: center;">🎁 Nuestros Cupones</h3>
-    <p style="margin-bottom: 20px; font-style: italic;">Canjea o crea sorpresas lindas ✨</p>
-
-    <input type="text" id="nuevoTitulo" placeholder="Título del cupón (ej. 🍿 Noche de película)" style="width: 90%; padding: 8px; border-radius: 10px; margin-bottom: 8px;"><br>
-    <textarea id="nuevoDetalle" placeholder="Detalle (ej. Vemos una peli y comemos snacks 💖)" style="width: 90%; padding: 8px; border-radius: 10px;"></textarea><br>
-    <select id="creadoPor" style="margin-top: 6px; padding: 6px 12px; border-radius: 10px;">
-      <option value="Amira">Amira 💖</option>
-      <option value="Thomas">Thomas 💙</option>
-    </select><br>
-    <button onclick="crearCupon()" style="margin-top: 10px; padding: 8px 16px; border-radius: 12px; background-color: #ec407a; color: white; border: none;">Crear Cupón 💌</button>
-
-    <div id="listaCupones" style="margin-top: 24px;"></div>
-  </div>
+<div class="notepad" style="width: 95%; max-width: 680px; text-align: center;">
+<h3 style="text-align: center;">🎁 Nuestros Cupones</h3>
+<p style="margin-bottom: 20px; font-style: italic;">Canjea o crea sorpresas lindas ✨</p>
+<input id="nuevoTitulo" placeholder="Título del cupón (ej. 🍿 Noche de película)" style="width: 90%; padding: 8px; border-radius: 10px; margin-bottom: 8px;" type="text"/><br/>
+<textarea id="nuevoDetalle" placeholder="Detalle (ej. Vemos una peli y comemos snacks 💖)" style="width: 90%; padding: 8px; border-radius: 10px;"></textarea><br/>
+<select id="creadoPor" style="margin-top: 6px; padding: 6px 12px; border-radius: 10px;">
+<option value="Amira">Amira 💖</option>
+<option value="Thomas">Thomas 💙</option>
+</select><br/>
+<button onclick="crearCupon()" style="margin-top: 10px; padding: 8px 16px; border-radius: 12px; background-color: #ec407a; color: white; border: none;">Crear Cupón 💌</button>
+<div id="listaCupones" style="margin-top: 24px;"></div>
+</div>
 </section>
-
-
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
   import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
@@ -2009,5 +1951,34 @@ document.addEventListener("DOMContentLoaded", mostrarGaleria);
   cargarCupones();
 </script>
 
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCBTK4lvPlv9CzjwIBsmonAYNyKOX8jMYc",
+    authDomain: "amiraythomas.firebaseapp.com",
+    projectId: "amiraythomas",
+    storageBucket: "amiraythomas.appspot.com",
+    messagingSenderId: "1091768566011",
+    appId: "1:1091768566011:web:a18fb7e0df4852591ff05e",
+    measurementId: "G-C5MDLWG0MB"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // TEST: guardar mensaje en Firestore para comprobar conexión
+  try {
+    const docRef = await addDoc(collection(db, "testConexion"), {
+      autor: "Amira 💖",
+      mensaje: "Test automático de Firebase completado",
+      fecha: new Date().toISOString()
+    });
+    console.log("✅ Test guardado en Firestore con ID:", docRef.id);
+  } catch (e) {
+    console.error("❌ Error al guardar en Firestore:", e);
+  }
+</script>
 </body>
 </html>
