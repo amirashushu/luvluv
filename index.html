@@ -865,18 +865,18 @@
 
 
   </style>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
+
+
+
 <!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
+
+
+
 <!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js" type="module"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js" type="module"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js" type="module"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js" type="module"></script>
+
+
+
+
 </head>
 <body>
 <div id="hearts-container"></div>
@@ -1697,53 +1697,7 @@ document.addEventListener("DOMContentLoaded", mostrarGaleria);
 
 
 </script>
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyCBTK4lvPlv9CzjwIBsmonAYNyKOX8jMYc",
-    authDomain: "amiraythomas.firebaseapp.com",
-    projectId: "amiraythomas",
-    storageBucket: "amiraythomas.appspot.com",
-    messagingSenderId: "1091768566011",
-    appId: "1:1091768566011:web:a18fb7e0df4852591ff05e",
-    measurementId: "G-C5MDLWG0MB"
-  };
 
-  // Inicializar Firebase
-  const app = firebase.initializeApp(firebaseConfig);
-  const storage = firebase.storage();
-  const db = firebase.firestore();
-
-  const galeriaDiv = document.getElementById('galeria');
-  const fileInput = document.getElementById('fileInput');
-
-  fileInput.addEventListener('change', async (e) => {
-    const file = e.target.files[0];
-    const storageRef = storage.ref(`galeria/${Date.now()}_${file.name}`);
-    await storageRef.put(file);
-    const url = await storageRef.getDownloadURL();
-
-    // Guardar URL en Firestore
-    await db.collection('galeria').add({ url });
-
-    mostrarGaleria();
-  });
-
-  async function mostrarGaleria() {
-    galeriaDiv.innerHTML = '';
-    const snapshot = await db.collection('galeria').get();
-    snapshot.forEach((doc) => {
-      const data = doc.data();
-      const ext = data.url.split('.').pop();
-      if (['mp4', 'webm'].includes(ext)) {
-        galeriaDiv.innerHTML += `<video src="${data.url}" controls class="item"></video>`;
-      } else {
-        galeriaDiv.innerHTML += `<img src="${data.url}" class="item" />`;
-      }
-    });
-  }
-
-  mostrarGaleria();
-</script>
 <!-- 🌸 Galería compartida Firebase -->
 <section class="pantalla pantalla-galeria" id="pantallaGaleria" style="display: none;">
 <div class="notepad" style="width: 95%; max-width: 720px; text-align: center;">
@@ -1753,7 +1707,6 @@ document.addEventListener("DOMContentLoaded", mostrarGaleria);
 <div id="galeria" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;"></div>
 </div>
 </section>
-
 <!-- 💌 Buzón de Mensajes -->
 <section class="pantalla" id="pantallaBuzon" style="display: none;">
 <div class="notepad" style="width: 95%; max-width: 640px; text-align: center;">
@@ -1769,7 +1722,6 @@ document.addEventListener("DOMContentLoaded", mostrarGaleria);
 <div id="listaMensajes" style="margin-top: 24px; text-align: left;"></div>
 </div>
 </section>
-
 <!-- 🎁 Pantalla de Cupones -->
 <section class="pantalla" id="pantallaCupones" style="display: none;">
 <div class="notepad" style="width: 95%; max-width: 680px; text-align: center;">
@@ -1785,13 +1737,16 @@ document.addEventListener("DOMContentLoaded", mostrarGaleria);
 <div id="listaCupones" style="margin-top: 24px;"></div>
 </div>
 </section>
+<!-- Firebase SDKs -->
+
+
 
 
 
 <!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
 <script>
   const firebaseConfig = {
     apiKey: "AIzaSyCBTK4lvPlv9CzjwIBsmonAYNyKOX8jMYc",
@@ -1802,9 +1757,83 @@ document.addEventListener("DOMContentLoaded", mostrarGaleria);
     appId: "1:1091768566011:web:a18fb7e0df4852591ff05e",
     measurementId: "G-C5MDLWG0MB"
   };
+
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
   const storage = firebase.storage();
+
+  function enviarMensaje() {
+    const autor = document.getElementById("autorMensaje")?.value;
+    const mensaje = document.getElementById("mensajeFuturo")?.value;
+    if (autor && mensaje) {
+      db.collection("buzon").add({ autor, mensaje, timestamp: Date.now() }).then(() => {
+        document.getElementById("mensajeFuturo").value = "";
+        obtenerMensajes();
+      });
+    }
+  }
+
+  function obtenerMensajes() {
+    db.collection("buzon").orderBy("timestamp", "desc").onSnapshot(snapshot => {
+      const container = document.getElementById("mensajesContainer");
+      if (!container) return;
+      container.innerHTML = "";
+      snapshot.forEach(doc => {
+        const d = doc.data();
+        container.innerHTML += `<div><strong>${d.autor}</strong>: ${d.mensaje}</div>`;
+      });
+    });
+  }
+
+  function subirArchivo() {
+    const archivo = document.getElementById("archivoInput")?.files[0];
+    if (!archivo) return alert("Selecciona un archivo");
+    const ref = storage.ref().child("galeria/" + Date.now() + "_" + archivo.name);
+    ref.put(archivo).then(() => {
+      ref.getDownloadURL().then(url => {
+        db.collection("galeria").add({ url, tipo: archivo.type });
+      });
+    });
+  }
+
+  function obtenerGaleria() {
+    db.collection("galeria").onSnapshot(snapshot => {
+      const container = document.getElementById("galeria");
+      if (!container) return;
+      container.innerHTML = "";
+      snapshot.forEach(doc => {
+        const { url, tipo } = doc.data();
+        if (tipo.startsWith("image")) container.innerHTML += `<img src="${url}" style="max-width: 300px;">`;
+        else if (tipo.startsWith("video")) container.innerHTML += `<video controls src="${url}" style="max-width: 300px;"></video>`;
+      });
+    });
+  }
+
+  function mostrarCupones() {
+    const cupones = [
+      { titulo: "🍿 Noche de película + abrazos", detalle: "Elegimos una peli y la vemos abrazaditos" },
+      { titulo: "💆 Masaje de 15 minutos", detalle: "Masaje en espalda, hombros o donde tú quieras 🫶" },
+      { titulo: "🍪 Cocinar algo juntos", detalle: "Galletas, desayuno o lo que queramos probar 💖" },
+      { titulo: "🧸 Cita en casa", detalle: "Sin celulares, solo nosotros" },
+    ];
+    const contenedor = document.getElementById("cuponesContainer");
+    if (!contenedor) return;
+    cupones.forEach((cupon, i) => {
+      const btn = `<button onclick="canjearCupon('${cupon.titulo}')">Canjear</button>`;
+      contenedor.innerHTML += `<div><h4>${cupon.titulo}</h4><p>${cupon.detalle}</p>${btn}</div>`;
+    });
+  }
+
+  function canjearCupon(titulo) {
+    db.collection("cuponesUsados").add({ titulo, canjeado: true, timestamp: Date.now() });
+    alert("¡Cupón canjeado!");
+  }
+
+  window.onload = () => {
+    obtenerMensajes();
+    obtenerGaleria();
+    mostrarCupones();
+  };
 </script>
 </body>
 </html>
