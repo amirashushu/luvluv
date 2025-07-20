@@ -1,1 +1,1851 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Amira y Thomas</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cookie&display=swap');
 
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(to bottom, #fce4ec, #f8bbd0);
+      height: 100vh;
+      overflow: auto;
+      position: relative;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      cursor: url('https://cur.cursors-4u.net/nature/nat-10/nat982.cur'), auto;
+
+    }
+
+    .screen {
+    display: none;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;        
+    text-align: center;
+    animation: fadeIn 1s ease-in-out forwards;
+    background: linear-gradient(to bottom, #fff0f6 10%, #f8bbd0 100%);
+    opacity: 0;
+    padding: 40px 20px;
+    overflow-y: auto;       
+    transition: opacity 0.5s ease-in-out;
+    pointer-events: none;  
+    }
+
+    .active {
+      display: flex;
+      opacity: 1;
+      transition: opacity 1s ease-in-out;
+      opacity: 1;
+     pointer-events: auto;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .password-screen {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    h2 {
+      font-size: 26px;
+      font-weight: 600;
+      color: #d81b60;
+      margin-bottom: 10px;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 60px);
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    .key {
+      background-color: #f8bbd0;
+      border: none;
+      border-radius: 50%;
+      font-size: 20px;
+      padding: 15px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    .key:hover {
+      background-color: #f48fb1;
+      transform: scale(1.1);
+    }
+
+    .input-display {
+      font-size: 28px;
+      margin-top: 20px;
+      letter-spacing: 10px;
+      color: #880e4f;
+    }
+
+    .notepad {
+    background-color: #fff0f6;
+    border: 3px dashed #ec407a;
+    padding: 20px;
+    border-radius: 25px;
+    width: 70%;
+    max-width: 500px;
+    text-align: justify;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    line-height: 1.8;
+    color: #880e4f;
+    position: relative;
+    z-index: 2;
+    animation: slideInNote 1s ease;
+    }
+    @keyframes slideInNote {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+    }
+
+
+    .notepad::before {
+      content: "💗";
+      font-size: 50px;
+      position: absolute;
+      top: -30px;
+      left: -30px;
+      animation: heartBeat 2s infinite;
+    }
+
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    .notepad h3, .notepad h4 {
+      text-align: center;
+      margin: 0;
+    }
+
+    .notepad h4 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 30px;
+      color: #c2185b;
+      margin: 10px 0;
+    }
+
+    .heart {
+    position: fixed;
+    color: #f06292;
+    font-size: 24px;
+    animation: float 8s linear infinite;
+    z-index: 1;
+    pointer-events: none;
+    }
+   
+
+
+
+    @keyframes float {
+    0% { transform: translateY(-10vh) scale(1); opacity: 0; }
+    100% { transform: translateY(110vh) scale(1.5); opacity: 1; }
+    }
+
+     #hearts-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    }
+
+    #musicPlayer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+  background: linear-gradient(145deg, #f48fb1, #ec407a);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 40px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease, transform 0.2s ease;
+  display: none; /* se muestra solo tras ingresar clave */
+}
+
+#musicPlayer:hover {
+  background: linear-gradient(145deg, #e91e63, #ad1457);
+  transform: scale(1.05);
+}
+
+
+
+    .pet-container {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 10;
+      
+    }
+
+    .pet-container img {
+      width: 60px;
+      height: auto;
+      cursor: pointer;
+      animation: bounce 3s ease-in-out infinite;
+      filter: brightness(1.1) drop-shadow(0 0 4px #f8bbd0);
+    }
+    @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+    }
+
+    .pet-message {
+      background: #f8bbd0;
+      color: #880e4f;
+      border: 2px solid #ec407a;
+      border-radius: 20px;
+      padding: 12px 18px;
+      font-size: 14px;
+      font-weight: bold;
+      max-width: 180px;
+      text-align: center;
+      animation: slideIn 0.6s ease, pulse 2.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .nav-buttons {
+      margin-top: 20px;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .nav-buttons button {
+      background-color: #ec407a;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #c2185b;
+    }
+
+    .playlist-container {
+    background: rgba(255, 240, 246, 0.9);
+    border: 2px dashed #ec407a;
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    width: 90%;
+    max-width: 700px;
+    margin: auto;
+    }
+
+    .playlist-container iframe {
+    width: 100%;
+    max-width: 500px;
+    height: 360px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .playlist-container-enhanced {
+  background: rgba(255, 240, 246, 0.95);
+  border: 3px dashed #ec407a;
+  border-radius: 25px;
+  padding: 30px 20px;
+  max-width: 700px;
+  margin: 30px auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  animation: fadeIn 1.5s ease-in-out;
+  text-align: center;
+}
+
+.playlist-container-enhanced h3 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 36px;
+  color: #c2185b;
+  margin-bottom: 10px;
+}
+
+.playlist-container-enhanced iframe {
+  width: 100%;
+  max-width: 500px;
+  height: 360px;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  margin-top: 15px;
+}
+
+.playlist-container-enhanced .frase-romantica {
+  font-size: 16px;
+  color: #d81b60;
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
+  @media (max-width: 600px) {
+    .notepad {
+      width: 90%;
+      font-size: 16px;
+      padding: 16px;
+    }
+  
+    .input-display {
+      font-size: 22px;
+      letter-spacing: 6px;
+    }
+  
+    .keypad {
+      grid-template-columns: repeat(3, 50px);
+      gap: 10px;
+    }
+  
+    .key {
+      font-size: 18px;
+      padding: 12px;
+    }
+  
+    #musicPlayer {
+      padding: 10px 14px;
+      font-size: 14px;
+    }
+  
+    .playlist-container iframe {
+      height: 280px;
+    }
+  }
+
+  @media (max-width: 600px) {
+  h2, h3, h4 {
+    font-size: 20px !important;
+  }
+
+  .notepad {
+    padding: 14px;
+    border-radius: 18px;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .playlist-container-enhanced h3 {
+    font-size: 26px;
+  }
+
+  .tiempo-box {
+    font-size: 18px;
+    padding: 16px;
+  }
+
+  .fancyFont {
+    font-size: 1.6em;
+  }
+
+  .secret-message {
+    font-size: 14px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  body {
+    font-size: 16px;
+    padding: 0 12px;
+    overflow-x: hidden;
+  }
+
+  .screen {
+    padding: 10px 0;
+  }
+
+  .notepad {
+    padding: 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 18px !important;
+  }
+
+  h3.fancyFont {
+    font-size: 22px !important;
+  }
+
+  .upload-label,
+  .boton-romantico,
+  .nav-buttons button {
+    width: 100%;
+    font-size: 16px;
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+  }
+
+  textarea, select, input[type="file"], input[type="text"] {
+    font-size: 16px;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 14px;
+  }
+
+  .galeria-kawaii {
+    gap: 8px;
+    padding: 8px 4px;
+    max-height: 360px;
+    overflow-y: auto;
+  }
+
+  .galeria-kawaii img,
+  .galeria-kawaii video,
+  .galeria-item {
+    width: 46vw;
+    height: 46vw;
+    max-width: unset;
+    max-height: unset;
+    border-radius: 14px;
+  }
+
+  .notepad p,
+  .notepad label {
+    font-size: 15px;
+  }
+
+  .nav-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+
+  #mensajeMostrado {
+  animation: fadeInCarta 1s ease-in-out;
+}
+
+.secret-message {
+  filter: blur(6px);
+  transition: filter 0.5s ease, background 0.3s ease;
+  cursor: pointer;
+  background-color: #fce4ec;
+  padding: 10px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  position: relative;
+  font-size: 16px;
+  color: #880e4f;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.secret-message.revealed {
+  filter: blur(0);
+  background-color: #fff0f6;
+}
+
+.secret-message::after {
+  content: "👀 Haz clic para ver";
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+
+@keyframes fadeInCarta {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.tiempo-container {
+  background: rgba(255, 240, 246, 0.95);
+  border: 3px dashed #ec407a;
+  border-radius: 25px;
+  padding: 30px 20px;
+  max-width: 600px;
+  margin: auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  animation: fadeIn 1.5s ease-in-out;
+  text-align: center;
+}
+
+.tiempo-container h3 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 38px;
+  color: #c2185b;
+  margin-bottom: 20px;
+}
+
+.tiempo-box {
+  background: #fff0f6;
+  border: 2px solid #ec407a;
+  border-radius: 20px;
+  padding: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #880e4f;
+  font-family: 'Montserrat', sans-serif;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  animation: pulseTimer 3s infinite;
+}
+
+.frase-romantica {
+  font-style: italic;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #d81b60;
+  animation: fadeIn 2s ease-in;
+}
+
+@keyframes pulseTimer {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+#answersArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.answerBubble {
+  max-width: 80%;
+  background: #fce4ec;
+  padding: 12px 16px;
+  border-radius: 20px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  color: #880e4f;
+  font-size: 15px;
+  position: relative;
+  text-align: left;
+  word-wrap: break-word;
+}
+
+.answerBubble::before {
+  content: attr(data-name);
+  position: absolute;
+  top: -16px;
+  left: 14px;
+  font-size: 12px;
+  color: #c2185b;
+  font-weight: bold;
+}
+#answersArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.questionTitle {
+  background: #fff0f6;
+  color: #ad1457;
+  font-weight: bold;
+  padding: 12px 20px;
+  border-radius: 18px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  max-width: 90%;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.answerBubble {
+  background: #fce4ec;
+  padding: 14px 18px;
+  border-radius: 20px;
+  max-width: 85%;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  font-size: 14px;
+  color: #880e4f;
+  text-align: left;
+}
+
+.answerBubble.amira {
+  background: #f8bbd0;
+  border-left: 6px solid #d81b60;
+}
+
+.answerBubble.thomas {
+  background: #b2ebf2;
+  border-left: 6px solid #0097a7;
+}
+
+
+.fancyFont {
+  font-family: 'Cookie', cursive;
+  font-size: 2em;
+  color: #d81b60;
+  text-shadow: 1px 1px 2px #ffc1e3;
+}
+
+@keyframes zoomFade {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.password-screen {
+  animation: zoomFade 0.8s ease-in-out;
+}
+
+#preguntaDiariaScreen h2 {
+  font-family: 'Comic Neue', cursive;
+  font-size: 26px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  color: #d81b60;
+  text-shadow: 1px 1px #fff;
+  text-align: center;
+}
+
+#preguntaDiariaScreen .notepad {
+  background: #fff0f6;
+  padding: 24px;
+  border-radius: 20px;
+  box-shadow: 0 6px 16px rgba(216, 27, 96, 0.2);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+#preguntaDiariaScreen input,
+#preguntaDiariaScreen textarea {
+  border: 2px solid #f8bbd0;
+  background: #ffffff;
+  color: #333;
+  font-family: inherit;
+  margin: 8px 0;
+  width: 90%;
+  max-width: 400px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  transition: all 0.2s ease;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#preguntaDiariaScreen input:focus,
+#preguntaDiariaScreen textarea:focus {
+  outline: none;
+  border-color: #ec407a;
+  box-shadow: 0 0 6px rgba(236, 64, 122, 0.4);
+}
+
+#preguntaDiariaScreen button {
+  background: linear-gradient(to right, #ec407a, #d81b60);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: transform 0.2s ease, background 0.3s ease;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#preguntaDiariaScreen button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(to right, #d81b60, #ad1457);
+}
+
+#preguntaDiariaScreen #answersArea {
+  background: #ffe3ec;
+  padding: 14px;
+  border-radius: 14px;
+  margin-top: 16px;
+  font-size: 15px;
+  color: #6a1b9a;
+  font-style: italic;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#preguntaDiariaScreen .nav-buttons {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#preguntaDiariaScreen .nav-buttons button {
+  background: transparent;
+  border: 2px solid #ec407a;
+  color: #ec407a;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#preguntaDiariaScreen .nav-buttons button:hover {
+  background: #ec407a;
+  color: white;
+}
+
+.nota-sorpresa {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  background: #ffe3ec;
+  border-radius: 18px;
+  padding: 12px 18px;
+  font-size: 14px;
+  font-style: italic;
+  color: #880e4f;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: none;
+  z-index: 5;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.cambio-pregunta-btn {
+  background: linear-gradient(to right, #f8bbd0, #ec407a);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  margin: 10px auto;
+  cursor: pointer;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.cambio-pregunta-btn:hover {
+  transform: scale(1.05);
+}
+
+.cuponAnimado {
+  animation: aparecer 0.6s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes aparecer {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#cuponesScreen {
+  background: linear-gradient(145deg, #ffeef7, #fff0f6);
+  padding: 20px;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+#contenedorGaleria img,
+#contenedorGaleria video {
+  max-width: 160px;
+  max-height: 160px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+#contenedorGaleria img:hover,
+#contenedorGaleria video:hover {
+  transform: scale(1.05);
+}
+
+.upload-label {
+  display: inline-block;
+  padding: 10px 18px;
+  background-color: #fce4ec;
+  border: 2px dashed #ec407a;
+  color: #880e4f;
+  font-weight: bold;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.upload-label:hover {
+  background-color: #f8bbd0;
+}
+
+.boton-romantico {
+  padding: 10px 20px;
+  background-color: #ec407a;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.boton-romantico:hover {
+  background-color: #d81b60;
+  transform: scale(1.05);
+}
+
+.galeria-kawaii {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  padding: 10px;
+  background-color: #fff0f6;
+  border-radius: 14px;
+  max-height: 420px;
+  overflow-y: auto;
+  border: 2px solid #f8bbd0;
+}
+
+.galeria-kawaii img,
+.galeria-kawaii video {
+  max-width: 160px;
+  max-height: 160px;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease;
+}
+
+.galeria-kawaii img:hover,
+.galeria-kawaii video:hover {
+  transform: scale(1.07);
+}
+
+.galeria-item {
+  max-width: 160px;
+  max-height: 160px;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease;
+}
+
+.galeria-item:hover {
+  transform: scale(1.07);
+}
+
+
+  </style>
+
+
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
+
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
+
+</head>
+<body>
+  
+    <div id="hearts-container"></div>
+<div id="passwordScreen" class="screen password-screen active">
+  <h2>🗝₊˚⊹♡ Ingresa la clave secreta</h2>
+  <div class="input-display" id="inputDisplay">••••</div>
+  <div class="keypad">
+    <button class="key" onclick="enterDigit('1')">1</button>
+    <button class="key" onclick="enterDigit('2')">2</button>
+    <button class="key" onclick="enterDigit('3')">3</button>
+    <button class="key" onclick="enterDigit('4')">4</button>
+    <button class="key" onclick="enterDigit('5')">5</button>
+    <button class="key" onclick="enterDigit('6')">6</button>
+    <button class="key" onclick="enterDigit('7')">7</button>
+    <button class="key" onclick="enterDigit('8')">8</button>
+    <button class="key" onclick="enterDigit('9')">9</button>
+    <div></div>
+    <button class="key" onclick="enterDigit('0')">0</button>
+    <div></div>
+  </div>
+</div>
+
+<div id="notepadScreen" class="screen">
+  <div class="notepad">
+    <h3>🗒 14 Julio 2025</h3>
+    <h4>Para mi querido Thomas ‹𝟹 :</h4>
+    <p>Hoy cumplimos un mes, el primero de bastantes que continúan por delante. Quiero que sepas lo feliz que soy por tenerte a mi lado. Desde que llegaste ese día tan random, todo cambió para mejor. Gracias por haber sido mi regalo de cumpleaños (づ˶•༝•˶)づ♡.</p>
+    <p>No sé cómo explicarlo, pero contigo siento que todo tiene más sentido. Me haces sentir amada, querida, acompañada… incluso cuando no estás cerca. Y eso no es algo que cualquiera logra. A tu lado estoy aprendiendo lo que es realmente el amor. Hemos pasado por tantas emociones en tan poco tiempo... es como una montaña rusa de emociones, pero una que repetiría mil veces contigo.</p>
+    <p>Estuviste a mi lado en mi peor momento, te quedaste cuando más lo necesitaba, me apoyaste a pesar de todo y me hiciste recordar por qué vale la pena vivir día a día. Eres un solcito, mi alegría constante, y solo espero seguir teniendo esa calidez que emites por mucho, mucho tiempo más. (ෆ˙ᵕ˙ෆ)♡</p>
+    <p>Me haces reír con tus chistes malos, que igual amo porque vienen de ti (yo soy la chistosa de la relación). Sé que no eres perfecto, y eso también me gusta, porque no busco perfección, sino algo real y contigo todo se siente así.</p>
+    <p>¿Quién lo diría? Ahora estás acá a mi lado, convirtiéndote poco a poco en parte de mi rutina, de mis días, de mis pensamientos. Ya me generaste una necesidad, y no me imagino la vida sin ti. Me ilusiona el hecho de seguir construyendo esto, paso a paso, con risas, mañoseos, aprendizajes y amor.</p>
+    <p>Me emociona pensar en todo lo que nos queda por vivir, en los lugares que podríamos conocer, en los abrazos que todavía no nos damos, en las cosas que nos quedan por hacer. Gracias por mirarme como si fuera lo más lindo que viste en el día, por elegirme a pesar de todo. Thomas, te elegiría una y mil veces más.</p>
+    <p>Te amo profundamente, ¡feliz primer mes! ♡</p>
+  </div>
+    <div class="nav-buttons">
+    <button onclick="volverAlBloqueo()">Volver</button>
+    <button onclick="irAPlaylist()">Continuar</button>
+    </div>
+  <div id="sorpresa" class="nota-sorpresa">P.D: Te amo más cada día (づ￣ ³￣)づ</div>
+
+
+</div>
+
+<div id="playlistScreen" class="screen">
+  <div class="playlist-container-enhanced">
+    <h3>Playlist</h3>
+    <p class="frase-romantica">Canciones que me recuerdan lo bonito que es estar juntos ♡</p>
+    
+    <iframe
+      src="https://open.spotify.com/embed/playlist/1031FzY2heFzULY7yvwaEq?utm_source=generator"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy">
+    </iframe>
+    
+    <div class="nav-buttons">
+      <button onclick="showScreen('notepadScreen')">❮ Atrás</button>
+      <button onclick="showScreen('buzonScreen')">Continuar</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="buzonScreen" class="screen">
+  <div class="notepad" style="width: 95%; max-width: 640px; text-align: center;">
+    <h3 class="fancyFont" style="text-align: center;">📮 Nuestro Buzón</h3>
+    <p style="margin-bottom: 20px; font-style: italic;">Deja un mensajito lindo o un recuerdo 💌</p>
+
+    <label for="autorMensaje" style="font-weight: bold;">¿Quién escribe?</label><br>
+    <select id="autorMensaje" style="margin: 10px auto 18px auto; padding: 8px 14px; border-radius: 10px; border: 2px solid #ec407a; background-color: #fff0f6; color: #880e4f;">
+      <option value="Amira">Amira 💖</option>
+      <option value="Thomas">Thomas 💙</option>
+    </select><br>
+
+    <textarea id="mensajeFuturo" rows="4" style="width: 100%; border-radius: 14px; padding: 12px; font-size: 16px; background: #ffffff; border: 2px dashed #ec407a;" placeholder="Ej: Hoy fuimos a pasear por el cerro..."></textarea>
+
+    <button onclick="guardarMensaje()" style="margin-top: 18px; background-color: #ec407a; color: white; padding: 10px 24px; border: none; border-radius: 14px; font-weight: bold;">💌 Guardar recuerdo</button>
+
+    <div id="mensajesGuardados" style="margin-top: 40px;">
+      <h4 class="fancyFont" style="text-align: center; margin-bottom: 18px;">📬 Mensajes guardados</h4>
+      <ul id="listaMensajes" style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px;"></ul>
+    </div>
+
+    <div class="nav-buttons" style="margin-top: 30px;">
+      <button onclick="showScreen('playlistScreen')">❮ Atrás</button>
+      <button onclick="showScreen('tiempoScreen')">Continuar</button>
+
+    </div>
+  </div>
+</div>
+
+<div id="tiempoScreen" class="screen">
+  <div class="tiempo-container">
+    <h3> Nuestro tiempo juntos </h3>
+    <div id="relationshipTimer" class="tiempo-box">
+      ⏳ Calculando cuánto llevamos juntos ...
+    </div>
+    <p class="frase-romantica">y vamos por más!! (⸝⸝> ω <⸝⸝)</p>
+    <div class="nav-buttons">
+      <button onclick="showScreen('buzonScreen')">❮ Atrás</button>
+      <button onclick="showScreen('preguntaDiariaScreen')"> Continuar</button>
+
+    </div>
+  </div>
+</div>
+
+<div id="preguntaDiariaScreen" class="screen">
+  <h2 style="color:#d81b60; margin-bottom: 10px;">📝 Pregunta del día</h2>
+
+  <div class="notepad" style="text-align: center;">
+    <p id="dailyQuestion"></p>
+
+    <button onclick="showRandomQuestion()" class="cambio-pregunta-btn">🔄 Otra pregunta</button>
+
+  <input id="userNameInput" placeholder="Tu nombre" />
+  <textarea id="userAnswerInput" placeholder="Tu respuesta..." rows="3"></textarea>
+
+  <button onclick="saveDailyAnswer()" style="margin-top:10px;">Enviar</button>
+  <div id="answersArea" style="margin-top:20px;"></div>
+  </div>
+
+  <div class="nav-buttons">
+    <button onclick="showScreen('buzonScreen')">❮ Atrás</button>
+    <button onclick="showScreen('cuponesScreen'); inicializarCupones()">Continuar</button>
+  </div>
+</div>
+
+<div id="cuponesScreen" class="screen">
+  <h2 style="color: #ec407a;">Cupones</h2>
+
+  <div id="listaCupones" style="margin-top: 20px;"></div>
+
+  <button onclick="mostrarFormularioCupon()" class="temaBtn">➕ Crear cupón</button>
+
+  <div id="formularioCupon" style="display: none; margin-top: 15px;">
+    <input id="tituloCupon" placeholder="¿Qué vale?" style="padding: 8px; border-radius: 10px; width: 80%;"><br>
+    <textarea id="detalleCupon" rows="2" placeholder="Detalles del cupón..." style="width: 80%; border-radius: 10px; padding: 8px; margin-top: 5px;"></textarea><br>
+    <button onclick="guardarCupon()" style="margin-top: 5px;">💌 Guardar</button>
+  </div>
+
+  <div class="nav-buttons">
+    <button onclick="showScreen('preguntaDiariaScreen')">❮ Volver</button>
+    <button onclick="showScreen('galeriaScreen')">Continuar</button>
+
+  </div>
+  <canvas id="confettiCanvas" style="position: fixed; top: 0; left: 0; pointer-events: none; width: 100%; height: 100%; z-index: 999;"></canvas>
+</div>
+
+<div id="galeriaScreen" class="screen">
+  <div class="notepad" style="width: 95%; max-width: 720px; text-align: center;">
+    <h3 class="fancyFont" style="font-size: 26px;">Nuestra Galería de Recuerdos</h3>
+    <p style="font-style: italic; margin-bottom: 20px;">Aquí guardamos todos los momentos lindos juntos ( ˶ˆᗜˆ˵ )</p>
+
+    <label for="archivoGaleria" class="upload-label">
+      📁 Elegir archivos
+      <input type="file" id="archivoGaleria" accept="image/*,video/*" multiple hidden>
+    </label>
+
+    <button onclick="guardarGaleria()" class="boton-romantico" style="margin-top: 12px;">💾 Guardar </button>
+
+    <div id="contenedorGaleria" class="galeria-kawaii"></div>
+
+    <div class="nav-buttons" style="margin-top: 30px;">
+      <button onclick="showScreen('cuponesScreen')">❮ Atrás</button>
+    </div>
+  </div>
+</div>
+
+
+
+<audio id="bgMusic" src="blue.mp3" loop preload="auto"></audio>
+<button id="musicPlayer">▶️ Música</button>
+<div class="pet-container">
+  <img id="petImg" src="mascota1.png" alt="Mascota linda">
+  <div class="pet-message" id="petMessage">Hola 💕</div>
+</div>
+
+<script>
+  const correctPassword = '1406';
+  let input = '';
+  const display = document.getElementById('inputDisplay');
+  const audio = document.getElementById('bgMusic');
+  const musicBtn = document.getElementById('musicPlayer');
+
+  function enterDigit(digit) {
+  if (input.length < 4) {
+    input += digit;
+    display.textContent = input.padEnd(4, '•');
+  }
+
+  if (input.length === 4) {
+    setTimeout(() => {
+      if (input === correctPassword) {
+        showScreen('notepadScreen');
+        audio.play().catch(() => {});
+        musicBtn.style.display = 'block';
+
+        setTimeout(() => {
+          const sorpresa = document.getElementById('sorpresa');
+          if (sorpresa) {
+            sorpresa.style.display = 'block';
+          }
+        }, 10000); 
+
+      } else {
+        alert('Contraseña incorrecta ૮(˶╥︿╥)ა, Intenta de nuevo');
+        input = '';
+        display.textContent = '••••';
+      }
+    }, 300);
+  }
+}
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => {
+      s.classList.remove('active');
+    });
+    const next = document.getElementById(id);
+    next.classList.add('active');
+  }
+
+ musicBtn.addEventListener('click', () => {
+  if (audio.paused) {
+    audio.play();
+    musicBtn.textContent = '⏸️ Pausar';
+  } else {
+    audio.pause();
+    musicBtn.textContent = '▶️ Música';
+  }
+});
+
+
+
+const frases = [
+  "Te amo <3", 
+  "Báñate (≧ᵕ≦)♡", 
+  "Sonríe ૮ • ﻌ - ა!!", 
+  "Piensa en mí >ᴗ< !!", 
+  "Toma awita!!", 
+  "Te extraño (• ᴖ •｡)", 
+  "Fuiste al gym? ᕙ(  •̀ ᗜ •́  )ᕗ", 
+  "Si lees esto te gusta el pilin (੭˃ᴗ˂)੭", 
+  "Te amo más ദ്ദി ˉ͈̀꒳ˉ͈́ )✧", 
+  "Abrígate porfis (｡•́︿•̀｡)", 
+  "Desayunaste ya? (｡•́︿•̀｡)", 
+  "Hoy es un buen día para amarme (๑˃ᴗ˂)ﻭ", 
+  "Te mereces una siesta ʕっ•ᴥ•ʔっ", 
+  "Eres mi persona favorita ( ⁎ᵕᴗᵕ⁎ )❤︎", 
+  "Cierra TikTok, amorcito (≖ᴗ≖ )", 
+  "No procrastines... o sí, pero conmigo (｡•̀ᴗ-)✧", 
+  "Te comería a besitos (｡♥‿♥｡)", 
+  "Eres mi motivación pa todo ʚ♡⃛ɞ(•ᴗ•❁)", 
+  "¿Ya sonreíste hoy? Hazlo por mí ( ´ ∀ )ノ～ ♡", 
+  "Solo quería recordarte que te amo (´･ᴗ･  )", 
+  "Eres mi lugar favorito (´｡• ᵕ •｡)", 
+  "Contigo se me olvida el mundo (´｡• ᵕ •｡)", 
+  "Te amo aunque a veces me de la tontera (๑•﹏•)", 
+  "Eres lo mejor de mis días (ﾉ´ヮ`)ﾉ*: ･ﾟ", 
+  "Oye... me gustas, mucho. (>///<)", 
+  "No te estreses tanto, mi amorcito <3", 
+  "Hiciste caca hoy? jeje, importante (｡•̀ᴗ-)✧", 
+  "Hola mi arqui, hazme una casa, pero en tu corazón bb", 
+  "¿Me das un abracito? (づ￣ ³￣)づ", 
+  "Si lees esto, debes darme 3 besitos",
+  "Eres mi sol en un día nublado ☀️", 
+  "Tus abrazos son mi lugar favorito (´ε｀ )♡", 
+  "¡Eres mi razón de sonreír cada día! (｡♥‿♥｡)", 
+  "A tu lado todo es más bonito (｡•̀ᴗ-)✧", 
+  "Me haces sentir la persona más afortunada del mundo ( ´ ∀ )ノ～ ♡", 
+  "Te adoro más de lo que las palabras pueden expresar (❁´◡`❁)", 
+  "A veces me pregunto cómo fue que tuve tanta suerte de encontrarte ( ´ ▽ ` )ﾉ", 
+  "Eres el sueño hecho realidad, te amo ( ˘ ³˘)♥", 
+  "La mejor parte de mi día es verte sonreír (｡♥‿♥｡)", 
+  "Que nadie te diga que no somos el match perfecto (≧◡≦)", 
+  "Siempre estaré aquí, en las buenas y en las malas ( ´ ▽ ` )", 
+  "Mi felicidad tiene tu nombre", 
+  "Que nunca falten tus besos (｡♥‿♥｡)", 
+  "Si pudiera darte una estrella, te daría el cielo completo (✩°｡⋆)", 
+  "Eres lo que me hace seguir adelante (✿◠‿◠)", 
+  "Cada día a tu lado es una nueva aventura (✩,)(✩,) ",
+  "Tus ojos son el reflejo de mi felicidad (｡•́‿•̀｡)",
+  "Lo mejor de mi vida es haberte encontrado ( ´ ▽ ` )ﾉ",
+  "Tus abrazos me dan fuerzas para todo (´ε｀ )♡",
+  "Eres mi pedazo de cielo (❁´◡`❁)",
+  "A tu lado no existe nada malo (｡♥‿♥｡)",
+  "Tú y yo, un equipo perfecto (ღ✪v✪)ღ",
+  "Me haces ser mejor persona, te amo (´∀｀)♡",
+  "Te haré feliz todos los días de mi vida (｡♥‿♥｡)",
+  "Eres mi primer pensamiento al despertar (´｡• ᵕ •｡)",
+  "Tu amor es mi fuerza y mi paz ( ´ ∀ ` )ノ～ ♡",
+  "Juntos somos invencibles (੭˃ᴗ˂)੭",
+  "Mi lugar favorito es a tu lado (ღ✧◡✧)",
+  "Te prometo que siempre estaré a tu lado (ღ˘⌣˘ღ)",
+  "Gracias por hacer mi vida mucho más hermosa (❣️)",
+  "Contigo el mundo se ve diferente (｡•̀ᴗ-)✧",
+  "Eres la razón por la que sonrío todos los días ( ´ ▽ ` )",
+  "No me canso de repetir lo mucho que te amo (｡♥‿♥｡)",
+  "Te quiero hoy, mañana y siempre (´ε｀ )♡",
+  "Te amo tanto que las palabras se quedan cortas (ღ✪v✪)ღ",
+];
+  const mensajeMascota = document.getElementById('mensajeMascota');
+  const petMessage = document.getElementById('petMessage');
+
+  function changeMessage() {
+    const msg = frases[Math.floor(Math.random() * frases.length)];
+    petMessage.textContent = msg;
+  }
+
+  changeMessage();
+  setInterval(changeMessage, 60000);
+
+  const petImg = document.getElementById('petImg');
+  const petOptions = ['mascota1.png', 'mascota2.png'];
+  let petIndex = 0;
+
+  petImg.addEventListener('click', () => {
+    petIndex = (petIndex + 1) % petOptions.length;
+    petImg.src = petOptions[petIndex];
+    const originalText = petMessage.textContent;
+    petMessage.textContent = "¡ouch!";
+    setTimeout(() => {
+    changeMessage();
+    }, 2000);
+
+  });
+  function volverAlBloqueo() {
+  document.getElementById('notepadScreen').classList.remove('active');
+  document.getElementById('passwordScreen').classList.add('active');
+}
+
+function irAPlaylist() {
+  showScreen('playlistScreen');
+}
+
+
+const dailyQuestions = [
+  "¿Qué te hizo sonreír hoy?",
+  "¿Qué es lo que más te gusta del otro?",
+  "Describe una cita soñada con tu pareja.",
+  "¿Qué canción te recuerda a nosotros?",
+  "¿Cuál es un sueño que quieres cumplir con tu pareja?",
+  "¿Qué detalle del otro te derrite?",
+  "¿Qué aprendiste de la relación esta semana?",
+  "¿Qué actividad nueva te gustaría hacer juntos?",
+  "¿Qué palabra define tu amor hoy?",
+  "¿Qué te gustaría decirle al otro hoy?",
+  "¿Qué significa para ti el amor?",
+  "¿Cuál es tu recuerdo favorito de nuestra relación?",
+  "¿Qué parte del día prefieres pasar con tu pareja?",
+  "¿Qué harías para sorprender al otro hoy?",
+  "¿Qué cualidades de tu pareja te inspiran?",
+  "¿Cómo sabes que amas al otro?",
+  "¿Qué hábito de tu pareja te gustaría adoptar?",
+  "¿Qué significa para ti el compromiso?",
+  "¿Qué superpoder te gustaría tener para sorprender a tu pareja?",
+  "¿Cómo te gustaría que fuera tu futuro juntos?",
+  "¿Qué tan importante es la comunicación en una relación?",
+  "¿Qué es lo que más te gusta hacer con tu pareja?",
+  "¿Qué te hace sentir más amado por el otro?",
+  "¿Qué te gustaría mejorar en tu relación?",
+  "¿Qué harías para hacer que tu pareja se sienta especial?",
+  "¿Qué significa para ti la confianza en una relación?",
+  "¿Qué es lo que más admiras de tu pareja?",
+  "¿Qué plan o sueño compartido te emociona más?",
+  "¿Cómo puedes apoyar mejor a tu pareja?",
+  "¿Qué tal vez no le has dicho nunca a tu pareja pero te gustaría?",
+  "¿Qué palabras o frases te hacen sentir más cercano a tu pareja?",
+  "¿Cómo te gustaría celebrar un aniversario especial?",
+  "¿Cuál es tu película favorita para ver juntos?",
+  "¿Cuál es tu comida favorita que ambos disfrutan?",
+  "¿Qué te gustaría hacer en un viaje romántico?",
+  "¿Qué te hace sentir más conectado con tu pareja?",
+  "¿Qué gesto simple te gustaría recibir más a menudo de tu pareja?",
+  "¿Cómo manejas los desacuerdos en la relación?",
+  "¿Qué es lo que más te asusta de la relación?",
+  "¿Qué esperas del futuro juntos?",
+  "¿Qué significa la lealtad para ti?",
+  "¿Cómo puedes mejorar como pareja cada día?",
+  "¿Cuál es la cualidad más atractiva de tu pareja?",
+  "¿Qué harías si pudieras pasar todo un día con tu pareja, sin preocupaciones?",
+  "¿Qué sueños tienes para los dos?",
+  "¿Qué significa para ti la empatía en una relación?",
+  "¿Cómo describirías tu relación en tres palabras?",
+  "¿Qué haces para mantener viva la chispa en la relación?",
+  "¿Qué es lo más divertido que han hecho juntos?",
+  "¿Cómo defines la felicidad en pareja?",
+  "¿Qué piensas sobre el concepto de alma gemela?",
+  "¿Qué harías si tu pareja no estuviera de acuerdo contigo?",
+  "¿Qué es lo que más valoras de tu pareja?",
+  "¿Qué diferencia de tu pareja te hace crecer como persona?",
+  "¿Qué es lo que te hace sentir más tranquilo con tu pareja?",
+  "¿Cómo te gustaría que fuera un día perfecto juntos?",
+  "¿Qué pequeñas cosas hacen que tu pareja se sienta especial?",
+  "¿Qué detalles son los que más aprecias del otro?",
+  "¿Cómo defines el respeto en la relación?",
+  "¿Qué sería un regalo perfecto para tu pareja?",
+  "¿Cómo te gustaría expresar tu amor sin palabras?",
+  "¿Qué actividades disfrutas hacer más con tu pareja?",
+  "¿Qué es lo que más te sorprende de tu pareja?",
+  "¿Qué harías para hacer sentir especial a tu pareja en un día común?",
+  "¿Qué significa el sacrificio en una relación?",
+  "¿Qué planes de futuro compartes con tu pareja?",
+  "¿Qué importancia le das a los momentos íntimos?",
+  "¿Qué has aprendido de tu pareja en el último mes?",
+  "¿Qué hace que te sientas seguro/a en la relación?",
+  "¿Qué es lo que más te gusta hacer para relajarte junto a tu pareja?",
+  "¿Cómo manejas los momentos difíciles en la relación?",
+  "¿Qué es lo que más valoras del amor que compartes?",
+  "¿Qué significa para ti tener espacio en una relación?",
+  "¿Cómo puedes seguir creciendo juntos como pareja?",
+  "¿Qué significa el apoyo emocional en una relación?",
+  "¿Qué significa la paciencia para ti en una relación?",
+  "¿Qué significa para ti compartir responsabilidades?",
+  "¿Qué esperas aprender de tu pareja este mes?",
+  "¿Cómo te gustaría mejorar la convivencia?",
+  "¿Qué tal vez no has dicho pero te gustaría compartir?",
+  "¿Cómo te gustaría pasar más tiempo con tu pareja?",
+  "¿Qué detalles de la relación te hacen sentir más conectado/a?",
+  "¿Cómo sientes que se expresa el amor en tu relación?",
+  "¿Qué te gustaría cambiar de ti para mejorar como pareja?",
+  "¿Qué piensas sobre la importancia de la amistad en una relación?",
+  "¿Cómo te gustaría fortalecer la relación a largo plazo?",
+  "¿Qué te hace sentir más amado/a por tu pareja?",
+  "¿Cómo pueden ambos sentirse más apreciados mutuamente?",
+  "¿Qué significa para ti el respeto mutuo?",
+  "¿Qué significa el perdón en una relación?",
+  "¿Qué harías para solucionar un malentendido con tu pareja?",
+  "¿Cómo quieres que tu relación sea vista por otros?",
+  "¿Qué aprendizaje te ha dejado esta relación hasta ahora?",
+  "¿Qué importancia tiene la diversión en pareja?",
+  "¿Qué harías para mejorar la forma de comunicarte con tu pareja?",
+  "¿Qué te gustaría que tu pareja te dijera hoy?",
+  "¿Qué harías si pudieras hacer un solo deseo por tu relación?",
+  "¿Qué te gustaría que tu pareja hiciera por ti este mes?",
+  "¿Cómo te gustaría sentirte más apoyado/a por tu pareja?",
+  "¿Cómo defines la complicidad en una relación?",
+  "¿Qué es lo que más te gusta hacer cuando ambos están relajados?",
+  "¿Qué significa para ti ser parte del mundo de tu pareja?",
+  "¿Qué te gustaría que mejorara en la relación?",
+  "¿Qué harías para sorprender a tu pareja en un día cualquiera?",
+  "¿Qué esperas del otro a largo plazo?",
+  "¿Qué aprendizaje has adquirido en esta relación?",
+  "¿Cómo te gustaría que se manejara el estrés en pareja?",
+  "¿Cómo quieres que crezca tu relación en los próximos meses?",
+  "¿Qué aspecto de la relación te gustaría explorar más?",
+  "¿Qué es lo que más valoras del amor que compartes?",
+  "¿Qué harías para mantener una relación divertida?",
+  "¿Qué te hace sentir que tu relación es única?",
+  "¿Qué te gustaría experimentar con tu pareja este año?",
+  "¿Qué significa para ti ser un buen oyente en la relación?",
+  "¿Qué harías para que tu relación sea más profunda?",
+  "¿Cómo te gustaría sentirte más cercano/a a tu pareja?",
+  "¿Qué harías para fortalecer la comunicación en la relación?",
+  "¿Qué es lo que más te gusta de tu pareja cuando está relajado/a?",
+  "¿Qué harías para hacer sentir a tu pareja más apreciada?",
+  "¿Qué te gustaría mejorar en el día a día de la relación?",
+  "¿Cómo manejas las diferencias de opinión en la relación?",
+  "¿Qué significa para ti la estabilidad emocional en la relación?",
+  "¿Qué detalles del día a día te hacen sentir más conectado/a?",
+  "¿Qué harías para hacer que cada día sea especial con tu pareja?",
+  "¿Qué significa para ti el esfuerzo mutuo?",
+  "¿Qué crees que hace que tu relación sea especial?",
+  "¿Qué harías para crear más recuerdos felices juntos?",
+  "¿Qué es lo que más te hace reír con tu pareja?",
+  "¿Qué harías para aumentar la confianza en tu relación?",
+  "¿Cómo te gustaría sorprender a tu pareja el próximo mes?",
+  "¿Qué es lo que más te hace sentir amado/a por tu pareja?",
+  "¿Qué harías para crear una rutina especial juntos?",
+  "¿Qué significa para ti la independencia en una relación?",
+  "¿Cómo describirías la relación en este momento de tu vida?",
+  "¿Qué harías para sorprender a tu pareja con un detalle único?",
+  "¿Qué significa para ti compartir momentos simples juntos?",
+  "¿Qué aprendizaje te ha dejado la relación hasta ahora?",
+  "¿Qué te gustaría que mejorara la relación?",
+  "¿Qué harías para que tu pareja se sintiera más querida?",
+  "¿Cómo te gustaría que se gestionara el tiempo en pareja?",
+  "¿Qué significa para ti el amor incondicional?",
+  "¿Qué harías para mejorar la diversión en la relación?",
+  "¿Qué te gustaría aprender más sobre tu pareja?",
+  "¿Cómo te gustaría que tu relación creciera en los próximos meses?"
+];
+
+function loadNewQuestion() {
+  const random = Math.floor(Math.random() * preguntas.length);
+  document.getElementById("dailyQuestion").textContent = preguntas[random];
+}
+
+  function showRandomQuestion() {
+  const random = Math.floor(Math.random() * dailyQuestions.length);
+  const question = dailyQuestions[random];
+
+  document.getElementById('dailyQuestion').innerHTML = `
+    ${question}<br><span style="font-size: 14px; color: #aa5a8d; display: block; margin-top: 5px;">🌸 Esta es una pregunta aleatoria 🌸</span>
+  `;
+
+  const todayKey = getTodayKey();
+  const stored = JSON.parse(localStorage.getItem('answers-' + todayKey)) || [];
+  displayAnswers(question, stored);
+}
+
+
+function getTodayKey() {
+  const today = new Date();
+  return today.toISOString().split('T')[0]; // YYYY-MM-DD
+}
+
+function loadDailyQuestion() {
+  const dayIndex = new Date().getDate() % dailyQuestions.length;
+  const question = dailyQuestions[dayIndex];
+  
+  document.getElementById('dailyQuestion').innerHTML = `
+  ${question}<br><span style="font-size: 14px; color: #aa5a8d; display: block; margin-top: 5px;">🌸 Recuerda que cada día será una pregunta distinta 🌸</span>
+  `;
+
+
+  const todayKey = getTodayKey();
+  const stored = JSON.parse(localStorage.getItem('answers-' + todayKey)) || [];
+  displayAnswers(question, stored);
+}
+
+
+function saveDailyAnswer() {
+  const name = document.getElementById('userNameInput').value.trim();
+  const text = document.getElementById('userAnswerInput').value.trim();
+  if (!name || !text) return alert('Por favor, escribe tu nombre y tu respuesta...');
+
+  const todayKey = getTodayKey();
+  const stored = JSON.parse(localStorage.getItem('answers-' + todayKey)) || [];
+
+  if (stored.length >= 2 && !stored.some(ans => ans.name === name)) {
+    return alert('Ya se respondieron las 2 respuestas hoy.');
+  }
+
+  const updated = stored.filter(ans => ans.name !== name);
+  updated.push({ name, text });
+  localStorage.setItem('answers-' + todayKey, JSON.stringify(updated));
+  displayAnswers(updated);
+  document.getElementById('userAnswerInput').value = "";
+}
+
+function displayAnswers(question, answers) {
+  const area = document.getElementById('answersArea');
+  area.innerHTML = ''; // Limpiar antes de mostrar
+
+  const questionElement = document.createElement('div');
+  questionElement.className = 'questionTitle';
+  questionElement.innerHTML = `💭 <strong>Pregunta del día:</strong> ${question}`;
+  area.appendChild(questionElement);
+
+  answers.forEach(ans => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'answerBubble';
+    if (ans.name.toLowerCase().includes('amira')) {
+      wrapper.classList.add('amira');
+    } else if (ans.name.toLowerCase().includes('thomas')) {
+      wrapper.classList.add('thomas');
+    }
+
+
+    wrapper.innerHTML = `
+      <p><strong>Respuesta:</strong> ${ans.text}</p>
+      <p style="margin-top:5px;"><strong> Respondido por:</strong> ${ans.name}</p>
+    `;
+
+    area.appendChild(wrapper);
+  });
+}
+
+loadDailyQuestion();
+
+
+</script>
+
+<script>
+  const heartContainer = document.getElementById("hearts-container");
+    for (let i = 0; i < 25; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDelay = Math.random() * 8 + "s";
+    heart.innerHTML = "♡";
+    heartContainer.appendChild(heart);
+    }
+
+</script>
+  <script>
+  const sakuraContainer = document.createElement('div');
+  sakuraContainer.style.position = 'fixed';
+  sakuraContainer.style.top = '0';
+  sakuraContainer.style.left = '0';
+  sakuraContainer.style.width = '100%';
+  sakuraContainer.style.height = '100%';
+  sakuraContainer.style.pointerEvents = 'none';
+  sakuraContainer.style.zIndex = '0';
+  document.body.appendChild(sakuraContainer);
+
+  function crearPetalo() {
+    const petalo = document.createElement('div');
+    petalo.innerHTML = '🌸';
+    petalo.style.position = 'absolute';
+    petalo.style.top = '-30px';
+    petalo.style.left = `${Math.random() * 100}vw`;
+    petalo.style.fontSize = `${Math.random() * 16 + 20}px`;
+    petalo.style.opacity = Math.random();
+    petalo.style.animation = `caida ${Math.random() * 5 + 5}s linear forwards`;
+    sakuraContainer.appendChild(petalo);
+
+    setTimeout(() => {
+      sakuraContainer.removeChild(petalo);
+    }, 10000);
+  }
+
+  setInterval(crearPetalo, 500);
+
+  const style = document.createElement('style');
+  style.innerHTML = `
+    @keyframes caida {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(100vh) rotate(360deg); }
+    }
+  `;
+  document.head.appendChild(style);
+</script>
+<script>
+  function actualizarTiempoJuntos() {
+    const inicio = new Date("2025-06-14T00:00:00");
+    const ahora = new Date();
+    let diferencia = ahora - inicio;
+
+    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+    const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+    const segundos = Math.floor((diferencia / 1000) % 60);
+
+    const mensaje = `Llevamos juntos ${dias} días, ${horas} h, ${minutos} min y ${segundos} s desde el 14/06/2025 ( ｰ̀εｰ́ )`;
+    document.getElementById("relationshipTimer").innerText = mensaje;
+  }
+
+  setInterval(actualizarTiempoJuntos, 1000);
+</script>
+
+<script>
+    function guardarMensaje() {
+  const mensaje = document.getElementById("mensajeFuturo").value.trim();
+  const autor = document.getElementById("autorMensaje").value;
+
+  if (!mensaje) return alert("Escribe un mensaje para guardar 💌");
+
+  let mensajes = JSON.parse(localStorage.getItem("buzonRecuerdos")) || [];
+
+  mensajes.push({ autor, mensaje });
+  localStorage.setItem("buzonRecuerdos", JSON.stringify(mensajes));
+
+  document.getElementById("mensajeFuturo").value = "";
+  mostrarMensajes();
+}
+
+
+  function mostrarMensajes() {
+  let mensajes = JSON.parse(localStorage.getItem("buzonRecuerdos")) || [];
+
+  const lista = document.getElementById("listaMensajes");
+  lista.innerHTML = "";
+
+  mensajes.forEach(({ autor, mensaje }) => {
+    const li = document.createElement("li");
+    const div = document.createElement("div");
+    div.className = "secret-message";
+    div.innerHTML = `<strong style="color:${autor === 'Amira' ? '#c2185b' : '#1976d2'}">💌 ${autor}:</strong><br>${mensaje}`;
+    div.onclick = () => div.classList.toggle("revealed");
+    li.appendChild(div);
+    lista.appendChild(li);
+  });
+}
+
+
+  document.addEventListener("DOMContentLoaded", mostrarMensajes);
+
+  let cupones = [];
+
+function inicializarCupones() {
+  const guardados = localStorage.getItem("cuponesAmor");
+  if (guardados) {
+    cupones = JSON.parse(guardados);
+  } else {
+    cupones = [
+    { titulo: "🍿 Noche de película + abrazos", detalle: "¡Thomas, elige una película y nos abrazamos mientras la vemos! (Que no sea tan mala porfavor)", usado: false },
+    { titulo: "💆 Masaje express", detalle: "Thomas, te hago un masaje en espalda, hombros o donde tú quieras ", usado: false },
+    { titulo: "🍪 Cocinar algo juntos", detalle: "¡A cocinar galletas, postres o lo que se nos ocurra juntos! 💖", usado: false },
+    { titulo: "🍓 Picnic improvisado", detalle: "Vamos a preparar algo rico y tener un picnic improvisado, donde sea ", usado: false },
+    { titulo: "🛋️ Noche de maratón de series", detalle: "Elige una serie disfrutamos de una noche maratónica", usado: false },
+    { titulo: "💆‍♀️ Noche de skincare coreano", detalle: "Preparamos una rutina de skincare al estilo coreano. Mascarillas, hidratación y relajación mientras nos damos nanai", usado: false },  
+    { titulo: "🗣️ Día sin groserías", detalle: "Hoy es un día sin groserías, ¡si dices una, el otro tiene derecho a un reto! ", usado: false },
+     { titulo: "🍜 Ramen casero", detalle: "Nos retamos a cocinar ramen casero desde cero. ¿Quién será el chef estrella del ramen? 🍲 (obvio yo :p)", usado: false },
+     { titulo: "🍱 Cena en restaurante coreano", detalle: "Una cita en un restaurante coreano (en curico si hay)", usado: false },
+    { titulo: "🌆 Explorar la ciudad sin rumbo", detalle: "Vamos a dar un paseo sin planear a dónde vamos. Tomamos giros al azar y descubrimos nuevos rincones de la ciudad juntos ", usado: false },
+    ];
+    localStorage.setItem("cuponesAmor", JSON.stringify(cupones));
+  }
+
+  mostrarCupones();
+}
+
+function mostrarCupones() {
+  const contenedor = document.getElementById("listaCupones");
+  contenedor.innerHTML = "";
+
+  if (cupones.length === 0) {
+    contenedor.innerHTML = "<p style='color:#999;'>Aún no hay cupones creados 🥺</p>";
+    return;
+  }
+
+  cupones.forEach((cupon, index) => {
+    const cup = document.createElement("div");
+    cup.classList.add("cuponAnimado");
+
+    cup.style.border = "2px dashed #f48fb1";
+    cup.style.borderRadius = "12px";
+    cup.style.padding = "10px";
+    cup.style.marginBottom = "10px";
+    cup.style.background = cupon.usado ? "#fce4ec" : "#fff0f6";
+
+    cup.innerHTML = `
+      <p><strong>${cupon.titulo}</strong></p>
+      <p style="font-size: 14px;">${cupon.detalle}</p>
+      <button onclick="marcarComoUsado(${index})" style="margin-top:5px;">
+        ✅ ${cupon.usado ? "Usado 💔" : "Marcar como usado"}
+      </button>
+    `;
+    contenedor.appendChild(cup);
+  });
+}
+
+function mostrarFormularioCupon() {
+  document.getElementById("formularioCupon").style.display = "block";
+}
+
+function guardarCupon() {
+  const titulo = document.getElementById("tituloCupon").value.trim();
+  const detalle = document.getElementById("detalleCupon").value.trim();
+  if (!titulo) return alert("¡Escribe un título para el cupón!");
+
+  cupones.push({ titulo, detalle, usado: false });
+  localStorage.setItem("cuponesAmor", JSON.stringify(cupones));
+
+  document.getElementById("tituloCupon").value = "";
+  document.getElementById("detalleCupon").value = "";
+  document.getElementById("formularioCupon").style.display = "none";
+  mostrarCupones();
+}
+
+function marcarComoUsado(index) {
+  cupones[index].usado = !cupones[index].usado;
+  localStorage.setItem("cuponesAmor", JSON.stringify(cupones));
+  mostrarCupones();
+  lanzarConfeti(); 
+}
+
+function lanzarConfeti() {
+  const canvas = document.getElementById('confettiCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const confettis = Array.from({ length: 150 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * -canvas.height,
+    r: Math.random() * 6 + 2,
+    d: Math.random() * 15 + 5,
+    color: `hsl(${Math.random() * 360}, 100%, 75%)`,
+    tilt: Math.random() * 10 - 5,
+    tiltAngleIncrement: Math.random() * 0.07 + 0.05,
+    tiltAngle: 0
+  }));
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    confettis.forEach(c => {
+      ctx.beginPath();
+      ctx.lineWidth = c.r;
+      ctx.strokeStyle = c.color;
+      ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
+      ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.d / 2);
+      ctx.stroke();
+    });
+    update();
+  }
+
+  function update() {
+    confettis.forEach(c => {
+      c.tiltAngle += c.tiltAngleIncrement;
+      c.y += Math.cos(c.d / 2);
+      c.x += Math.sin(c.tiltAngle);
+      c.tilt = Math.sin(c.tiltAngle) * 15;
+
+      if (c.y > canvas.height) {
+        c.y = -10;
+        c.x = Math.random() * canvas.width;
+      }
+    });
+  }
+
+  let interval = setInterval(draw, 16);
+  setTimeout(() => clearInterval(interval), 3000); 
+}
+
+function guardarGaleria() {
+  const input = document.getElementById("archivoGaleria");
+  const archivos = Array.from(input.files);
+  if (!archivos.length) {
+    alert("Selecciona al menos un archivo 💖");
+    return;
+  }
+
+  let galeriaGuardada = JSON.parse(localStorage.getItem("galeriaAmor")) || [];
+  let nuevosElementos = [];
+
+  let cargados = 0;
+
+  archivos.forEach(archivo => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const tipo = archivo.type.startsWith('image') ? 'img' : 'video';
+      nuevosElementos.push({ tipo: tipo, src: e.target.result });
+
+      cargados++;
+      if (cargados === archivos.length) {
+        galeriaGuardada = galeriaGuardada.concat(nuevosElementos);
+        localStorage.setItem("galeriaAmor", JSON.stringify(galeriaGuardada));
+        mostrarGaleria();
+        input.value = "";
+      }
+    };
+    reader.readAsDataURL(archivo);
+  });
+}
+
+function mostrarGaleria() {
+  const contenedor = document.getElementById("contenedorGaleria");
+  if (!contenedor) return;
+
+  const galeria = JSON.parse(localStorage.getItem("galeriaAmor")) || [];
+  contenedor.innerHTML = "";
+
+  galeria.forEach(item => {
+    const elemento = document.createElement(item.tipo);
+    elemento.src = item.src;
+    elemento.classList.add("galeria-item");
+    if (item.tipo === "video") {
+      elemento.controls = true;
+      elemento.muted = true;
+    }
+    contenedor.appendChild(elemento);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", mostrarGaleria);
+
+
+
+
+
+</script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCBTK4lvPlv9CzjwIBsmonAYNyKOX8jMYc",
+    authDomain: "amiraythomas.firebaseapp.com",
+    projectId: "amiraythomas",
+    storageBucket: "amiraythomas.appspot.com",
+    messagingSenderId: "1091768566011",
+    appId: "1:1091768566011:web:a18fb7e0df4852591ff05e",
+    measurementId: "G-C5MDLWG0MB"
+  };
+
+  // Inicializar Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const storage = firebase.storage();
+  const db = firebase.firestore();
+
+  const galeriaDiv = document.getElementById('galeria');
+  const fileInput = document.getElementById('fileInput');
+
+  fileInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    const storageRef = storage.ref(`galeria/${Date.now()}_${file.name}`);
+    await storageRef.put(file);
+    const url = await storageRef.getDownloadURL();
+
+    // Guardar URL en Firestore
+    await db.collection('galeria').add({ url });
+
+    mostrarGaleria();
+  });
+
+  async function mostrarGaleria() {
+    galeriaDiv.innerHTML = '';
+    const snapshot = await db.collection('galeria').get();
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      const ext = data.url.split('.').pop();
+      if (['mp4', 'webm'].includes(ext)) {
+        galeriaDiv.innerHTML += `<video src="${data.url}" controls class="item"></video>`;
+      } else {
+        galeriaDiv.innerHTML += `<img src="${data.url}" class="item" />`;
+      }
+    });
+  }
+
+  mostrarGaleria();
+</script>
+
+
+<!-- 🌸 Galería compartida Firebase -->
+<section class="pantalla pantalla-galeria" id="pantallaGaleria" style="display: none;">
+  <div class="notepad" style="width: 95%; max-width: 720px; text-align: center;">
+    <h3 style="text-align: center;">📸 Nuestra Galería</h3>
+    <p style="margin-bottom: 20px; font-style: italic;">Subamos recuerdos juntos 💖</p>
+    <input type="file" id="fileInput" accept="image/*,video/*" style="margin-bottom: 16px;"/><br>
+    <div id="galeria" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;"></div>
+  </div>
+</section>
+
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCBTK4lvPlv9CzjwIBsmonAYNyKOX8jMYc",
+    authDomain: "amiraythomas.firebaseapp.com",
+    projectId: "amiraythomas",
+    storageBucket: "amiraythomas.appspot.com",
+    messagingSenderId: "1091768566011",
+    appId: "1:1091768566011:web:a18fb7e0df4852591ff05e",
+    measurementId: "G-C5MDLWG0MB"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const storage = getStorage(app);
+  const db = getFirestore(app);
+
+  const fileInput = document.getElementById("fileInput");
+  const galeria = document.getElementById("galeria");
+
+  fileInput?.addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    const storageRef = ref(storage, `galeria/${Date.now()}_${file.name}`);
+    await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(storageRef);
+    await addDoc(collection(db, "galeria"), { url });
+    mostrarGaleria();
+  });
+
+  async function mostrarGaleria() {
+    galeria.innerHTML = "";
+    const snapshot = await getDocs(collection(db, "galeria"));
+    snapshot.forEach(doc => {
+      const { url } = doc.data();
+      const ext = url.split('.').pop().toLowerCase();
+      if (["mp4", "webm"].includes(ext)) {
+        galeria.innerHTML += `<video src="${url}" controls style="max-width: 150px; border-radius: 10px;"></video>`;
+      } else {
+        galeria.innerHTML += `<img src="${url}" style="max-width: 150px; border-radius: 10px;" />`;
+      }
+    });
+  }
+
+  mostrarGaleria();
+</script>
+
+</body>
+</html>
